@@ -1,0 +1,325 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapters 21
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 21: A Detailed Analysis of Hypothesis Tests }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 21: A Detailed Analysis of Hypothesis Tests}
+
+
+
+
+ \textbf{Overview:} Today, we will continue practicing the topics of confidence intervals and hypothesis tests. We will also analyze potential error and selecting an appropriate significance level.
+ We begin by reviewing how we have constructed confidence intervals and hypothesis tests using the model $$\hat{P}=N\left(p,\sqrt{\frac{pq}{n}}\right)$$ 
+ ~\\
+ 
+ \begin{minipage}[t]{0.5\textwidth}
+  \begin{framed}\textbf{Confidence intervals:}\\
+  
+  What are they used for? Based off \emph{samples}, we predict what should happen for a \emph{population}.\\
+  
+  Visualizing it: \vspace{0.5in}
+  
+  The general formula: (Center)$\pm($Dist$)^*$\,SE\\
+  
+  Our formula for 1-proportion: \vspace{2.2in}
+  
+  \emph{A confidence interval gives a range of potential values for a parameter based off statistics}
+  \end{framed}
+ \end{minipage}
+ \begin{minipage}[t]{0.5\textwidth}
+  \begin{framed}\textbf{Hypothesis Tests:}\\
+  
+  \vfill
+  
+  What are they used for? Based off \emph{population} information, we predict what should happen for a \emph{sample}.\\
+  
+  Visualizing it: \vspace{0.5in}
+  
+  The general process:
+  \begin{enumerate}
+   \item State the Hypotheses
+   \item Determine the model
+   \item Calculate the P-value:\vspace{0.5in}
+   \item Conclusion
+  \end{enumerate}
+
+  
+  Our model for 1-propotion: \vspace{0.5in}
+ 
+  \emph{A hypothesis test is a process that using statistics to test a claim about a parameter.}
+  \end{framed}
+ \end{minipage}
+ 
+ \vspace{0.2in}
+ 
+ NOTE: Error is unavoidable in both situations. The best we can hope to do is to minimize the potential for error and to understand what could go wrong.
+ 	\newpage
+ \begin{ex} In the warm up, we compared local students to a national value. As a reminder, we got a P-value of \underline{\hspace{0.25in}}. How do we determine \emph{how} good her students did?\end{ex}
+ 
+ \vspace{1in}
+ 
+ \noindent \textbf{What is a P-value?}
+ 
+ \vspace{1in}
+ 
+ \noindent NOTE: We assume that $H_0$ is true. However, it's possible that the initial claim is NOT true. We can realistically never be $100\%$ certain. Let's see what could go wrong:\\
+ 
+ {%
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\begin{center}
+\begin{tabular*}{6in}{llll}
+× & \mc{3}{l}{What Actually Happens}\\
+× & \mc{1}{l|}{×} & \mc{1}{l|}{$H_0$ True} & \mc{1}{l|}{$H_0$ Not True}\\\cline{2-4}
+Our Conclusion & \mc{1}{l|}{Reject $H_0$} & \mc{1}{l|}{×} & \mc{1}{l|}{×}\\\cline{2-4}
+× & \mc{1}{l|}{Fail to Reject $H_0$} & \mc{1}{l|}{×} & \mc{1}{l|}{×}\\\cline{2-4}
+ \end{tabular*}
+ \end{center}
+}%
+
+\vspace{0.2in}
+
+We have two types of errors.
+\begin{framed}
+ Type I Error:
+ 
+ \vspace{0.25in}
+ 
+ This is sometimes called a...
+\end{framed}
+\begin{framed}
+ Type II Error:
+ 
+ \vspace{0.25in}
+ 
+ This is sometimes called a...
+\end{framed}
+
+ \begin{ex} Determine what a Type I and Type II error would be for the following scenario. Begin by stating the $H_0$ and $H_A$. ``A person tests to see if they are pregnant''\end{ex}
+ 
+ \vspace{1in}
+ 
+ NOTE: We think that a \underline{\hspace{1in}} Error is worse.\\
+ 
+ 
+ \newpage
+ \begin{ex} Determine what a Type I and Type II error would be for the following scenario. Begin by stating the $H_0$ and $H_A$. ``A person tests to see if they have strepthroat''\end{ex}
+ 
+ \vspace{1in}
+ 
+ NOTE: We think that a \underline{\hspace{1in}} Error is worse.\\
+ 
+  \begin{ex} Determine what a Type I and Type II error would be for the following scenario. Begin by stating the $H_0$ and $H_A$. ``A person is on trial for stealing a loaf of bread. The penalty would be $\$400,000$''\end{ex}
+ 
+ \vspace{1in}
+ 
+ NOTE: We think that a \underline{\hspace{1in}} Error is worse.\\
+ ~\\
+ \textbf{What is $\alpha$?} If we reject the $H_0$, a P-value gives us the likelihood of making a Type I error. Our significance level, $\alpha$, is our willingness to make a Type I error.\\
+ ~\\
+ Why don't we just make $\alpha$ small all the time then?
+ 
+ \vfill
+ \begin{framed}
+  If we think that a Type I Error is worse, we should use a \underline{\hspace{1in}} $\alpha$. This will make it less likely to make a \underline{\hspace{1in}} Error, BUT it will also make it more likely to make a \underline{\hspace{1in}} Error.
+ \end{framed}
+ \begin{framed}
+  If we think that a Type II Error is worse, we should use a \underline{\hspace{1in}} $\alpha$. This will make it less likely to make a \underline{\hspace{1in}} Error, BUT it will also make it more likely to make a \underline{\hspace{1in}} Error.
+ \end{framed}
+ 
+ A neutral level for $\alpha$ is $0.05$. Go back and determine $\alpha$ for all previous examples!
+ \newpage
+ More Terminology:
+ \begin{framed}
+  The probability of making a Type II error is called $\beta$.
+  
+  The probability of not making a Type II error (avoiding error would be a good thing) is called the \emph{power}. Power$=1-\beta$.
+ \end{framed}
+ 
+ \begin{ex} What happens to $\beta$ and the power if we increase $\alpha$?
+ \end{ex}
+ 
+ \vspace{1in}
+
+  \begin{ex} What happens to $\beta$ and the power if we decrease $\alpha$?
+ \end{ex}
+ 
+ \vspace{1in}
+
+ \begin{ex} What is the only way to reduce the likelihood of BOTH a Type I and Type II error?\end{ex}
+ 
+ \begin{framed} Connecting $\alpha$ and $C$-Level for a TWO-TAILED Hypothesis Test:
+ 
+ Find $\alpha$ if $C=95\%$.
+ 
+ \vspace{1in}
+
+  Find $\alpha$ if $C=90\%$.
+ 
+ \vspace{0.75in}
+ 
+  Find $\alpha$ if $C=99\%$.
+ 
+ \vspace{0.75in}
+ \end{framed}
+In general, for a two-tailed test $\alpha=$\hspace{1in} or rather $C=$
+\newpage
+ \begin{framed} Connecting $\alpha$ and $C$-Level for a ONE-TAILED Hypothesis Test:
+ 
+ Find $\alpha$ if $C=95\%$.
+ 
+ \vspace{1in}
+
+  Find $\alpha$ if $C=90\%$.
+ 
+ \vspace{0.75in}
+ 
+  Find $\alpha$ if $C=99\%$.
+ 
+ \vspace{0.75in}
+ \end{framed}
+In general, for a one-tailed test $\alpha=$\hspace{1in} or rather $C=$
+ ~\\
+ \begin{ex} 
+  Due to the unexpected weight of keychains, several Chevy brand cars had to get recalled due to the keys bouncing out while running. Prior to the recall, it was determined that approximately $20\%$ of all Chevy cars had this problem. The PR specialist tests $200$ cars after repairs have been made and finds that $25$ still have this problem. The PR specialist plans to test if the company has improved, but he wants a lot of evidence before going to the public.\\
+  \begin{enumerate}
+   \item Determine the implied $H_0$ and $H_A$.
+   \item What $\alpha$ should be used? What error is the PR specialist worried about?
+   \item Perform the H-Test.
+   \item Follow up the test with the appropriate confidence interval.
+  \end{enumerate}
+
+ \end{ex}
+
+\end{document}

@@ -1,0 +1,337 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 24 Chi-Squared Goodness of Fit
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage{pst-func}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 24: Chi-Squared Goodness of Fit}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 24: Chi-Squared Goodness of Fit}
+
+
+
+
+ \textbf{Overview:} We return today to analyzing counts and proportions, much like the material from Exam I. Today, however, we will find a way to analyze multiple counts all at once.\\
+ ~\\
+ \noindent Mr. Wherry is given a ``fair'' six sided die. He's not convinced in its fairness however, and after rolling it several times he gets the following outcomes:
+ 
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+Outcome of Die & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+$\#$ of trials & 9 & 13 & 9 & 12 & 8 & 15
+\end{tabular}
+\end{center}
+\vspace{1in}
+
+\begin{ex} 
+\begin{enumerate}
+\item If the die is actually fair, what proportion of the time should Mr. Wherry get an outcome of a ``1''? How many counts should he expect for the number of ``1''s? Do this for all values.
+
+\vspace{0.5in}
+
+\item In terms of counts, how far off is the observed number of trials (table) from the expected number of trials (last part)?
+
+\vspace{0.5in}
+
+\item What is the relative/percentage error for each outcome? For example, maybe the observed outcome $2$ is $50\%$ more than what we were expecting [not actual numbers].
+
+\vfill
+
+\item Should we use a test or an interval to determine if the die is fair?
+\vspace{0.5in}
+\end{enumerate}
+\end{ex}
+
+NOTE: Our total for the relative/percentage errors for each outcome is \underline{\hspace{0.25in}}.
+
+\newpage
+\textbf{What happened?!}
+
+\vspace{0.25in}
+
+
+\noindent Let's create a new model: $$\chi^2=$$
+
+\vspace{0.5in}
+
+\noindent Degrees of freedom are based off the number of groups. For example, our die problem has df$=\underline{\hspace{1in}}$. In general, df$=$.\\
+~\\
+\begin{framed}
+ \noindent The assumptions are...
+\begin{enumerate}
+ \item Countable data.
+ \item \,
+ \item \,
+ \item \,
+\end{enumerate}
+\end{framed}
+\vspace{0.2in}
+
+To help you visualize it, $\chi^2$ looks like the graph below. The \emph{mean=df} and the mound is at df-2.
+
+\psset{xunit=0.5cm,yunit=20cm,arrowscale=1.5}
+\begin{pspicture}(-1,-0.1)(21,0.2)
+\psChiIIDist[linewidth=1pt,nue=5]{0.01}{19.5}
+\psaxes[labels=none,ticks=none]{->}(20,0.2)
+%\pscustom[fillstyle=solid,fillcolor=red!30]{%
+%\psChiIIDist[linewidth=1pt,nue=5]{8}{19.5}%
+%\psline(20,0)(8,0)}
+\end{pspicture}
+
+
+\newpage
+\noindent 
+\begin{ex}
+Let's look at the six-sided die hypothesis test in detail. Recall that           
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+Outcome of Die & 1 & 2 & 3 & 4 & 5 & 6\\\hline
+OBSERVED $\#$ of trials & 9 & 13 & 9 & 12 & 8 & 15\\ \hline
+EXPECTED $\#$ of trials & & & & & &
+\end{tabular}
+\end{center}
+\vspace{0.1in}
+
+\noindent STEP I:
+\vspace{0.2in}
+
+\noindent STEP II:
+\vfill
+
+\noindent STEP III:
+\vfill
+
+\noindent STEP IV:
+\vspace{0.5in}
+\end{ex}
+
+\newpage
+\noindent \textbf{Which way do we shade?}\\
+\noindent Assume that the die is perfectly fair...
+\begin{enumerate}
+ \item How should the observed and expected compare?
+ \item Should we have a large value for $\chi^2$ or a small value?
+ \item Do we want to reject or fail to reject the null-hypothesis?
+ \item Do we want a large or small P-value?
+ \item SHADE IN THE CURVE:
+
+ \psset{xunit=0.5cm,yunit=15cm,arrowscale=1.5}
+\begin{pspicture}(-1,-0.1)(21,0.2)
+\psChiIIDist[linewidth=1pt,nue=5]{0.01}{19.5}
+\psaxes[labels=none,ticks=none]{->}(20,0.2)
+%\pscustom[fillstyle=solid,fillcolor=red!30]{%
+%\psChiIIDist[linewidth=1pt,nue=5]{8}{19.5}%
+%\psline(20,0)(8,0)}
+\end{pspicture}
+
+\end{enumerate}
+\noindent Assume that the die is extremely unfair...
+\begin{enumerate}
+ \item How should the observed and expected compare?
+ \item Should we have a large value for $\chi^2$ or a small value?
+ \item Do we want to reject or fail to reject the null-hypothesis?
+ \item Do we want a large or small P-value?
+ \item SHADE IN THE CURVE:
+
+ \psset{xunit=0.5cm,yunit=15cm,arrowscale=1.5}
+\begin{pspicture}(-1,-0.1)(21,0.2)
+\psChiIIDist[linewidth=1pt,nue=5]{0.01}{19.5}
+\psaxes[labels=none,ticks=none]{->}(20,0.2)
+%\pscustom[fillstyle=solid,fillcolor=red!30]{%
+%\psChiIIDist[linewidth=1pt,nue=5]{8}{19.5}%
+%\psline(20,0)(8,0)}
+\end{pspicture}
+
+\end{enumerate}
+
+\noindent OBSERVATION:
+\vspace{0.2in}
+
+\emph{TI-83 and TI-84:} [2nd]$\rightarrow$[Vars]$\rightarrow$[chi-square cdf].\\
+\emph{TI-89:} [Apps]$\rightarrow$[Stat/List]$\rightarrow$[F5:Dist]$\rightarrow$[chi-square cdf].\\
+~\\
+The general setup is the same for all calculators. We need to type in ``chisquarecdf(low $\chi^2$-score, high $\chi^2$-score, df)''.\\
+Our P-value$=$\underline{\hspace{5in}}
+\newpage
+\begin{ex} We're going to analyze a bag of M$\&$M's. Let's test the claim that the color distribution is uniform. The colors are blue, brown, green, orange, red, and yellow.
+\end{ex}
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+ & Blue& Brown& Green& Orange& Red& Yellow\\\hline
+OBSERVED $\#$ of trials &  &  &  &  &  & \\ \hline
+EXPECTED $\#$ of trials & & & & & &
+\end{tabular}
+\end{center}
+\vspace{0.1in}
+
+\noindent STEP I:
+\vspace{0.2in}
+
+\noindent STEP II:
+\vfill
+
+\noindent STEP III:
+\vfill
+
+\noindent STEP IV:
+\vspace{0.5in}
+
+\begin{framed}
+ We call $Obs-Exp$ the residual.
+ 
+ We call $\frac{Obs-Exp}{\sqrt{Exp}}$ the standardized residual. It looks like the square-root of a single entry for our $\chi^2$ and it works like a z-score!
+\end{framed}
+
+\begin{ex} Calculate all the standardized residuals.
+\end{ex}
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+ & Blue& Brown& Green& Orange& Red& Yellow\\\hline
+St. Res. &  &  &  &  &  & \\
+\end{tabular}
+\end{center}
+\vspace{0.3in}
+
+\newpage
+\noindent \textbf{Critical Value:} Just like $Z^*$ and $t^*$, we can find $(\chi^2)^*$ using a table. This can be thought of as the cutoff for what we consider a large or small $\chi^2$-score.\\
+~\\
+\begin{ex} Let's reanalyze the bag of M$\&$M's. This time, we will test the claim for the company itself. They claim that the percentages are as follows: blue$=24\%$, brown$=13\%$, green$=16\%$, orange$=20\%$, red$=13\%$, and yellow$=14\%$.
+\end{ex}
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+ & Blue& Brown& Green& Orange& Red& Yellow\\\hline
+OBSERVED $\#$ of trials &  &  &  &  &  & \\ \hline
+EXPECTED $\#$ of trials & & & & & &
+\end{tabular}
+\end{center}
+\vspace{0.1in}
+
+\noindent STEP I:
+\vspace{0.2in}
+
+\noindent STEP II:
+\vfill
+
+\noindent STEP III:
+\vfill
+
+\noindent STEP IV:
+\vspace{0.5in}
+
+\begin{ex} Recalculate all the standardized residuals.
+\end{ex}
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+ & Blue& Brown& Green& Orange& Red& Yellow\\\hline
+St. Res. &  &  &  &  &  & \\
+\end{tabular}
+\end{center}
+\vspace{0.3in}
+
+\end{document}

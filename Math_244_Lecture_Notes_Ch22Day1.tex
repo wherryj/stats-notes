@@ -1,0 +1,272 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapters 22 Day One
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 22: Comparing Two Proportions }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 22 Day One: Comparing Two Proportions Using a Confidence Interval}
+
+
+
+
+ \textbf{Overview:} Today, we will compare the success rates/proportions for two groups using a confidence interval. This will use many of the techniques from the previous chapters.
+ ~\\
+ 
+ \begin{framed}
+  We found our confidence interval for one-proportion using the formula $$\hat{p}\pm Z^*\sqrt{\frac{\hat{p}\hat{q}}{n}}$$ or rather (Center)$\pm$(Dist$)^*$SE. Confidence intervals are based off \underline{\hspace{1in}}
+ \end{framed}
+ 
+\begin{framed}
+We used the model in step two of a hypothesis test of $$\hat{p}=N\left(p,\sqrt{\frac{pq}{n}} \right).$$ Hypothesis tests are based off \underline{\hspace{1in}}.
+\end{framed}
+
+Both our CI and our H-Test were created from the same model. So, if we have a model for comparing two proportions, we'll be able to test claims and determine the actual difference in two groups.\\
+~\\
+\begin{ex} Suppose that $P_{Seattle}-P_{Portland}>0$ for two winning rates for local roller derby teams. Which city is better?\end{ex} \vfill
+
+\begin{ex} Suppose that $P_{Seattle}-P_{Portland}<0$ for two winning rates for local roller derby teams. Which city is better?\end{ex} \vfill
+
+\begin{ex} Suppose that $P_{Seattle}-P_{Portland}=0$ for two winning rates for local roller derby teams. Which city is better?\end{ex} \vfill
+
+NOTE:
+\newpage
+We need a model for $\hat{p}_1-\hat{p}_2$. We start with some quick observations...
+\begin{enumerate}
+ \item The model for a single proportion is $$\hat{p}_1=N\left(p_1,\sqrt{\frac{p_1q_1}{n_1}} \right).$$
+ \item If you add/subtract two normal models, you will get another normal model.
+ \item If $X$ and $Y$ are independent variables, then $$Var[X-Y]=Var[X]+Var[Y].$$
+\end{enumerate}
+
+Our model for $\hat{p}_2-\hat{p}_1$ is normal based off the first two facts. Let's determine which normal.
+
+\begin{ex} CENTER: $E[\hat{p}_1]=p_1$ and $E[\hat{p}_2]=p_2$ are the centers for each of our individual models. What is the center for $E[\hat{p}_1-\hat{p}_2]$?
+\end{ex}
+
+\vspace{1in}
+
+\begin{ex} VARIANCE: $Var[\hat{p}_1]=\frac{p_1q_1}{n_1}$ and $Var[\hat{p}_2]=\frac{p_2q_2}{n_2}$ are the variances for each of our individual models. What is the variance for the difference, $Var[\hat{p}_1-\hat{p}_2]$?
+\end{ex}
+
+\vspace{1.5in}
+
+\begin{ex}Based off the variance, what is the standard deviation, $SD[\hat{p}_1-\hat{p}_2]$?
+\end{ex}
+\vspace{0.5in}
+\begin{framed}
+ Our model is
+ 
+ \vspace{0.75in}
+ 
+\end{framed}
+
+\newpage
+\begin{ex}
+Using the model $$\hat{p}_1-\hat{p}_2=N\left( p_1-p_2, \sqrt{\frac{p_1q_1}{n_1}+\frac{p_2q_2}{n_2}}\right)$$ create the confidence interval for $p_1-p_2$.\\
+HINT: Our interval will be based off samples and look something like (Center)$\pm Z^*$ SE.
+\end{ex}
+
+\vspace{1in}
+
+Our assumptions are...
+\begin{enumerate}
+ \item \,
+ \item \,
+ \item \, 
+ \item \,
+ \vspace{1in}
+\end{enumerate}
+
+\begin{ex} Create a $90\%$ CI for $p_1-p_2$ if $x_1=18$, $n_1=25$, $x_2=22$, and $n_2=50$.
+\end{ex}
+
+\vspace{2in}
+
+Which group appears to have a larger success rate? Why?
+
+\vspace{.25in}
+
+\newpage
+\begin{ex} Mr. Wherry performs a random study of PCC students and finds that out of $200$ students, under the age of $20$, $120$ have played Pok\'{e}mon Go! In contrast, he finds that out of $100$ students, age $20$ or older, $40$ have played Pok\'{e}mon Go!
+ Create a $95\%$ for the difference in proportions for Pok\'{e}mon Go! players for the two age groups. Assume that people were sampled individually to avoid bias.\end{ex}
+ 
+ \vfill
+ 
+ \vfill
+ 
+ \begin{ex} Suppose you got a $95\%$ CI for $P_{Seattle}-P_{Portland}$ of $(-0.04,-0.03)$. What does this tell us?
+ \end{ex}
+ 
+ \vfill
+ 
+ \begin{ex} Suppose you got a $95\%$ CI for $P_{Seattle}-P_{Portland}$ of $(-0.04,0.10)$. What does this tell us?
+ \end{ex}
+ 
+ \vfill
+ 
+ \begin{ex} Suppose you got a $95\%$ CI for $P_{Seattle}-P_{Portland}$ of $(-0.04,-0.03)$. What would the $95\%$ for $P_{Portland}-P_{Seattle}$ look like?
+ \end{ex}
+ 
+ \vfill
+
+ \newpage
+
+ Batman Preference: Create a $95\%$ CI to examine the difference in proportions for people that like Batman.
+ \vspace{3in}
+ 
+\begin{ex} What was the best point estimate in the previous problem?\end{ex}
+
+\begin{ex} What was the MOE in the previous problem?\end{ex}
+~\\
+\hrule
+~\\
+\noindent \textbf{Checking work with Calculator:} In our calculator, we use ``2-propZInt" to check our interval. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F7:Ints] on the TI-89. Type in your relevant information and you are good to go!\\
+~\\
+Calc Interval:
+\newpage
+\begin{ex}
+	Mike and his friend El are playing a game of Dungeons and Dragons. Mike thinks El might be cheating by moving the die. In $50$ rolls, Mike gets $4$ ``critical rolls". El gets $14$ ``critical rolls" in $60$ rolls. Determine if El is getting more ``critical hits" using a $95\%$ confidence interval.
+\end{ex}
+
+\begin{ex}
+	Jenny and Dory are competing to see who can remember more street names. Dory managed to remember $40\%$ of $150$ tested street names. Jenny remembered $60\%$ of $150$ tested street names. Determine if Dory remembers less street names using a $99\%$ confidence interval.
+\end{ex}
+
+\begin{ex}
+	Jack and Diane, two American kids growing up in the heartland, are competing to see how many Slurpee flavors they can correctly identify. Jack identified $10$ correct out of $30$. Diane identified $13$ correct out of $30$. Determine if the difference is statistically significant using a $90\%$ confidence interval.
+\end{ex}
+
+\begin{ex}
+	Mr. Wherry has two cats: Victor and Fiona. In the $200$ selected afternoons, Fiona is at the front door waiting $180$ times. In contrast, Victor is at the front door waiting $40$ times in a different $50$ randomly selected days. Determine if Fiona is more frequently at the front door waiting using a $99\%$ confidence interval.
+\end{ex}
+\end{document}

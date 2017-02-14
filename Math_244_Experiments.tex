@@ -1,0 +1,433 @@
+%=====================================================================================================
+
+%       Math 244 Experiments
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Experiments }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Experiments }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Experiments \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Start Class Thinking}
+
+
+
+
+ \textbf{Overview:} These are the experiments that will be done in Mr. Wherry's MTH244 class.\\
+ \begin{framed}
+\begin{center} \textbf{Candy Count--Confidence Interval for One Proportion} \end{center}
+\emph{What you need:} Several large bags of candies. One paper bag for each group of four students.\\
+~\\
+\emph{Setup:} Pour the candy evenly among the bags. Give one bag to each group. Have each group come up with a name or number for identification purposes.\\
+~\\
+\emph{Student Instructions:}
+ \begin{enumerate}
+ \item Create a $90\%$ CI for the true proportion of blue candies.
+ \item Create a $95\%$ CI for the true proportion of blue candies.
+ \item Write up your group name/number and confidence intervals on the board!
+ \end{enumerate}
+ ~\\
+ \emph{Follow-Up:} After collecting all of the confidence intervals, pick one group's $95\%$ CI. Using their high and low values, calculate their $\hat{p}$, margin of error, number of blue candies ($x$), and number of total candies ($n$). Students are often impressed that you are able to deconstruct an interval like this down usually to within 1 candy.
+ \end{framed}
+ \newpage
+ \begin{framed}
+ 	\begin{center} \textbf{Pepsi/Coke Taste Off--Hypothesis Tests for One Proportion} \end{center}
+ 	\emph{What you need:} At least $30$ small cups. A pen to write on the cups. $20$ oz of Pepsi and $20$ oz of Coke. Garbage can for used cups.\\
+ 	~\\
+ 	\emph{Setup:} Do AFTER getting students started on the sampling model to minimize stale soda. Put a dot on the bottom of about $15$ cups. Pour a small amount of Pepsi in all cups with a dot and a small amount of Coke in the remaining cups. Mix the cups.\\
+ 	~\\
+ 	\emph{Student Instructions:}
+ 	\begin{enumerate}
+ 		\item If we can't taste the difference between the cups, how often should we guess the soda brand correctly?
+ 		\item If we can taste the difference, what can you say about the proportion of times we can guess correctly?
+ 		\item Complete the first two steps of the H-Test knowing that $30$ cups will be sampled.
+ 		\item Send students out to the hall except for two volunteers that don't want to drink soda. They will be your record keepers. They will keep track of correct guesses and incorrect guesses. For example, a student who guess ``Coke" for a cup with a dot on the bottom would be incorrect.\\
+ 		~\\
+ 		IMPORTANT: Students are not told if they are right or wrong.
+ 		\item Bring the students back in from the halls. Run two lines of students--one for each volunteer. Students taste, guess, get recorded, and then recycle/dispose of their cup. Send them back to the end of the line and keep going until you are out of soda.
+ 		\item Complete the hypothesis test! Follow up with a confidence interval.
+ 	\end{enumerate}
+ 	~\\
+ 	\emph{Follow-Up:} Ask students why they think the SD is so large and how that might impact the overall test. Your standard deviation will likely be large if you only run $30$ samples. Ask how they could improve this further if they wanted to do this again on their own to see if they could \textit{individually} taste a difference.
+ \end{framed}
+ 
+ \newpage
+ 
+  \begin{framed}
+  	\begin{center} \textbf{Beans!--Selecting an Alpha Level for One Proportion} \end{center}
+  	\emph{What you need:} BEANS!!! But yeah, you'll need beans. Have two types of beans with a known ratio (say $1$ to $4$) in a large container to sample from. You'll also need a cup for each group of four.\\
+  	~\\
+  	\emph{Setup:} Bring out the beans. Give a cup to each group.\\
+  	~\\
+  	\emph{Student Instructions:} Okay, here's the deal. You are aiming for $2$ points (real or imaginary, whatever). You are welcome to sample beans as often as you would like. Mr. Wherry claims that $25\%$ of the beans are pinto beans. You are testing to see if the value different. If you say the value is $25\%$, in other words fail to reject $H_0$, the group will earn $1$ point regardless of the result. If you say the value is NOT $25\%$, you will receive either $0$ points if you are wrong (Mr. Wherry does not enjoy being called a liar) or $2$ points if you are correct (Mr. Wherry appreciates people who can discover the truth).
+  	\begin{enumerate}
+  		\item Perform a sample of an appropriate size (left that up to the students to decide).
+  		\item Perform a hypothesis test. 
+  		\item Choose an appropriate level for you $\alpha$. Be very specific about the reasons behind your choice.
+  		\item Groups turn in their names, alpha level, and conclusion.
+  	\end{enumerate}
+  	~\\
+  	\emph{Follow-Up:} After collecting the results, talk about what a Type I and Type II error might look like. Explain what an $\alpha$ should look like for a conservative guesser and what an $\alpha$ should look like for a wild guesser. Also, ask why they probably should have sampled more beans (why is a large $n$ nice?).
+  \end{framed}
+  
+  \newpage
+  
+   \begin{framed}
+   	\begin{center} \textbf{Left or Right Hand?--Comparing Two Proportions with Confidence Intervals} \end{center}
+   	\emph{What you need:} A ping-pong ball for each group of four. A paper bag for each group of four. A timer.\\
+   	~\\
+   	\emph{Setup:} Shorten the length of the bag by about half to make it easier to throw in a ping-pong ball. Students stand $4$ feet from the bag.\\
+   	~\\
+   	\emph{Student Instructions:} Throw the ping-pong ball into the bag as many times as you can with your dominant and then non-dominant hand.
+   	\begin{enumerate}
+   		\item $1$ minute timed (alternating group members): Make as many shots as you can in a minute. Record the number of attempts, $n$, and the number of successes, $x$. Do this with your dominant hand--likely the hand you write with. Switch after a minute and repeat until everyone has gone.
+   		\item $1$ minute timed (alternating group members): Make as many shots as you can in a minute. Record the number of attempts, $n$, and the number of successes, $x$. Do this with your non-dominant hand--likely the hand you write with. Switch after a minute and repeat until everyone has gone.
+   		\item Write your groups totals for all $x$'s and $n$'s. [Board has space for dominant and non-dominant hand]
+   		\item Create a $90\%$ confidence interval to determine if people are more accurate throwing something with their dominant hand!
+   	\end{enumerate}
+   	~\\
+   	\emph{Follow-Up:} Do the interval using technology after doing it by hand. Without actually doing the hypothesis test, determine what the corresponding $\alpha$ level and conclusion should be based off the confidence interval.
+   \end{framed}
+   
+   \newpage
+   
+      \begin{framed}
+      	\begin{center} \textbf{Memory Tests--Comparing Two Proportions with Hypothesis Tests} \end{center}
+      	\emph{What you need:} Two lists of words: l list with $25$ words without anything in common and 1 list with $25$ words broken up into themes. A timer.\\
+      	~\\
+      	\emph{Setup:} Have students get out a blank piece of paper for each trial. Get the words ready on the document camera.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item $1$ minute timed (x2): Show students the list of words without anything in common for $1$ minute. Hide the list. Give them $1$ minute afterwards to remember and write down as much as they can.
+      		\item Bring the list of words back up. Have them score themselves.
+      		\item $1$ minute timed (x2): Show students the list of words with a theme for $1$ minute. Hide the list. Give them $1$ minute afterwards to remember and write down as much as they can.
+      		\item Bring the list of words back up. Have them score themselves.
+      		\item Write up all the class data on the board to get a larger data set. Determine $x$ and $n$ for each list.
+      		\item Compare the lists using a hypothesis test!
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} The immediate follow up here is obviously a confidence interval. Be sure that they know what level of confidence they should be using based off the previous $\alpha$ level. After coming up with the results, point out that concepts are easier to remember if they are related. This can turn into a conversation about meta-cognition. In particular, explain how students can be studying topics in themes instead of trying to memorize a bunch of formulas. I like to do this activity before an exam day to give them study tips.
+      \end{framed}
+  
+   \newpage
+   
+   \begin{framed}
+   	\begin{center} \textbf{Gummies per Pack?--Inference for a Sample Average} \end{center}
+   	\emph{What you need:} A large box with individual packages gummies/candies. Ideally, this is something that tells you the number of candies per pack.\\
+   	~\\
+   	\emph{Setup:} Students grab packages of candies.\\
+   	~\\
+   	\emph{Student Instructions:} 
+   	\begin{enumerate}
+   		\item Students count the number of gummies in each package.
+   		\item Students record the number of gummies on the board.
+   		\item Create a histogram for the data to help check the Nearly Normal condition.
+   		\item Test the claim that the number of gummies is different than what the box states. If the box doesn't have a value, make one up.
+   		\item Create a $90\%$ for the number of gummies per package.
+   	\end{enumerate}
+   	~\\
+   	\emph{Follow-Up:} This one is pretty straightforward as we can actually count things. Explain how you might do this to check the average amount of soda in a can. Get students thinking about testing claims in the real world.
+   \end{framed}
+   
+     \newpage
+     
+     \begin{framed}
+     	\begin{center} \textbf{Don't Hold Your Breath--Inference for a Sample Average} \end{center}
+     	\emph{What you need:} A timer.\\
+     	~\\
+     	\emph{Setup:} Students break up into groups of four.\\
+     	~\\
+     	\emph{Student Instructions:} Back in $2008$, David Blane held his breath for $17$ minutes and $4$ seconds. Time magazine,  \url{http://content.time.com/time/health/article/0,8599,1736834,00.html}, claims that an average person can hold their breath for $2$ minutes. In contrast, Slate claims that an average person can hold their breath for $30$ seconds. \url{http://www.slate.com/articles/health_and_science/explainer/2013/11/nicholas_mevoli_freediving_death_what_happens_to_people_who_practice_holding.html}
+     	\begin{enumerate}
+     		\item Students taking turns holding their breath. Record the amount of time that they can do this. WARNING: Students MUST stop if they even feel slightly lightheaded.
+     		\item Students record the number of seconds on the board.
+     		\item The estimate from Time seems high. Test if the average is lower than Time's claim.
+     		\item Slate's claim seems more reasonable. Test if the average is different than claimed for Slate.
+     	\end{enumerate}
+     	~\\
+     	\emph{Follow-Up:} The most natural follow-up to this is a confidence interval. I strongly recommend doing so. Be sure to talk about assumptions as well--they have not always been met in the past for my classes. In particular, watch out for that nearly normal check.
+     \end{framed}
+  
+  
+       \newpage
+       
+       \begin{framed}
+       	\begin{center} \textbf{Strength of a Tissue--Inference for Two Independent Averages} \end{center}
+       	\emph{What you need:} Two brands of facial tissues: Kleenex and generic. Two cups for each group of four students. Water. Rubberbands. Pennies (LOTS of pennies). Straws.\\
+       	~\\
+       	\emph{Setup:} Split the room in half. One side will test the strength of Kleenex. The other side will test the strength of the generic. Make sure that one of the two cups for each group has some water in it.\\
+       	~\\
+       	\emph{Student Instructions:} 
+       	\begin{enumerate}
+       		\item Using a rubberband, fasten the tissue on the top of the cup without water.
+       		\item Place water on top of the tissue (use one straw full). Wait for it to dissipate.
+       		\item Drop coins one at a time on the tissue about one inch from the service. Do this until the tissue breaks.
+       		\item Count the number of coins. REPEAT for as many trials as you can do.
+       		\item Collect the class data for both brands and test if Kleenex brand is stronger than generic using a hypothesis test.
+       	\end{enumerate}
+       	~\\
+       	\emph{Follow-Up:} Complete a confidence interval after doing the hypothesis test. Do this both by-hand and using technology.
+       \end{framed}
+       
+       \newpage
+      
+      \begin{framed}
+      	\begin{center} \textbf{Balancing--Inference for Matched Pair} \end{center}
+      	\emph{What you need:} Timer.\\
+      	~\\
+      	\emph{Setup:} Students break up into pairs.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item Have one person time and the other participate. Stand on one foot with your eyes open for as long as you can. Foot must be held as far back as possible. Bouncing or loss of balance ends the count.
+      		\item Switch roles. Do it again.
+      		\item Same thing, but this time you must balance with your eyes closed!
+      		\item Collected the Eyes Open/Eyes Closed for all individuals. Data must be kept pair.
+      		\item Test the claim using a hypothesis test.
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} Complete a confidence interval after doing the hypothesis test. Show how to do this using lists and technology (e.g. $L_3=L_1-L_2$)
+      \end{framed}
+
+      \newpage
+      
+      \begin{framed}
+      	\begin{center} \textbf{M$\&$M's--Chi-Squared Goodness of Fit} \end{center}
+      	\emph{What you need:} One or two large party sized bags of regular M$\&$M's. Bags for groups of four.\\
+      	~\\
+      	\emph{Setup:} Split the candy up evenly for all groups of four. Bags make this easy to do.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item Count the number of each color for the candy.
+      		\item Collect the data on the board coming up with classroom totals.
+      		\item Perform the Chi-Squared Test under the assumption that the color distribution is uniform.
+      		\item Calculate the standardized residuals.
+      		\item Perform the Chi-Squared Test for the claim that the proportions are actually as follows: blue$=24\%$, brown$=13\%$, green$=16\%$, orange$=20\%$, red$=13\%$, and yellow$=14\%$.
+      		\item Calculate the standardized residuals.
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} Compare the standardized residuals. Has the fit gotten better or worse? You might still end up with some individual colors that don't match up. That's fine. Use one-proportion confidence intervals for those colors to determine what the actual percentages should be.
+      \end{framed}
+      \newpage
+      
+      \begin{framed}
+      	\begin{center} \textbf{Guessing or RNG?--Chi-Squared Homogeneity} \end{center}
+      	\emph{What you need:} Internet.\\
+      	~\\
+      	\emph{Setup:} Each student ideally should be at a computer.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item Have students write down a number from the options: $\{1,2,3,4,5\}$
+      		\item If you are able, have students go out and collect more of this data from other students out in the hall, food areas, etc.
+      		\item Collect the class data for the man-made data (picking at ``random").
+      		\item Using random.org, have students run simulations to collect data for integers from $1$ to $5$.
+      		\item Collect the class data for the RNG.
+      		\item Perform the Chi-Squared Test for Homogeneity.
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} Compare the standardized residuals. There'll be some numbers that really stand out. This is a fantastic time to follow up with the discussion of data collection methods. The assumption of ``random" for models is not always an easy one to check. It's important to stress the concept of no bias, but acknowledge that error is sometimes unavoidable. Stating potential flaws is an honest thing to do.
+      \end{framed}
+      \newpage
+      
+      \begin{framed}
+      	\begin{center} \textbf{BluRay Shopping--ANOVA} \end{center}
+      	\emph{What you need:} The Internet.\\
+      	~\\
+      	\emph{Setup:} Break students up in groups: Target, Best Buy, and Wal-Mart.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item Each group of student will find as many single movie BluRays (no collections/special editions) as possible. Record the cost of the movie.
+      		\item Calculate the mean, standard deviation, and sample size for each group.
+      		\item Each group must create a histogram for their data [used to check Nearly Normal].
+      		\item Compare the average cost of BluRays for the different stores using ANOVA!
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} Do ANOVA by hand and using technology. If the null-hypothesis is rejected, perform an adjusted confidence interval to determine which groups have a statistical difference. Break students up into groups to analyze all possible pairs. I like to have repeats (Target-Best Buy and Best Buy-Target) so that students are reminded of the symmetry.
+      \end{framed}
+      \newpage
+      
+      \begin{framed}
+      	\begin{center} \textbf{Bounce Heights--Linear Regression} \end{center}
+      	\emph{What you need:} One bouncy ball and ruler for each group of four.\\
+      	~\\
+      	\emph{Setup:} Give students supply. Assign groups drop heights from the following table.\\
+      	~\\
+      	\emph{Student Instructions:} 
+      	\begin{enumerate}
+      		\item Drop the bouncy ball for your assigned height and fill in the table. Units are $cm$. NOTE: You may find that slow-motion video on your phone makes this easier to see.
+      	
+      	\begin{center}
+      		\begin{tabular}{|c|c|}
+      			\hline
+      			Drop Height & Bounce Height \\
+      			\hline
+      			10 & \\
+      			\hline
+      			15 & \\
+      			\hline
+      			20 & \\
+      			\hline
+      			25 & \\
+      			\hline
+      			30 & \\
+      			\hline
+      			35 & \\
+      			\hline
+      			40 & \\
+      			\hline
+      			45 & \\
+      			\hline
+      			50 & \\
+      			\hline
+      			55 & \\
+      			\hline
+      			60 & \\
+      			\hline
+      			65 & \\
+      			\hline
+      			70 & \\
+      			\hline
+      			75 & \\
+      			\hline
+      			80 & \\
+      			\hline
+      			85 & \\
+      			\hline
+      		\end{tabular}
+      	\end{center}
+      			\item State the Explanatory and Response Variable.
+      			\item Determine the line of best fit. Using technology is okay.
+      			\item Calculate $R^2$. How good is the fit?
+      			\item \textbf{Test for Linearity} Using technology, perform the test for linearity! Recall that this refers to $\beta_1$.
+      	\end{enumerate}
+      	~\\
+      	\emph{Follow-Up:} Doing a prediction interval for a given drop height is an excellent idea. I mark the ruler with the interval and have a student slo-mo film the drop. We then see how close the prediction actually is.
+      \end{framed}
+ 
+\end{document}

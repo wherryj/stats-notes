@@ -1,0 +1,282 @@
+%=====================================================================================================
+
+%       Math 244 Warm Ups
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Warm Ups }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Warm Ups }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Warm Ups \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Start Class Thinking}
+
+
+
+
+ \textbf{Overview:} The purpose of the warm up is to get students thinking about Stats the moment they enter the door [Ch. 18 and 19 treated as review days]. I typically write these problems up on the board and do not collect them. However, you certainly could if you thought it necessary. In theory, students should be able to answer these questions at the start of class. As such, I highly recommend getting them involved in the answering process. Have them write answers on the board, use a Socratic method, think-pair-share, anything.\\
+ \begin{framed}
+ Day One (Set up classroom environment):
+ \begin{enumerate}
+ \item What is your name? What do you go by?
+ \item What are your preferred gender pronouns (he/she/they etc)? 
+ \item Is there anything I should know about you?
+ \end{enumerate}
+ \end{framed}
+ 
+ \begin{framed}
+ Warm Up--Confidence Intervals for Proportions (Ch. 18):
+ \begin{enumerate}
+ \item What is a \emph{statistic}? What is a \emph{parameter}?
+ \item State the $68-95-99.7$ Rule.
+ \item Fill in the blanks $\hat{p}=N(\underline{\hspace{1in}},\underline{\hspace{1in}})$
+ 
+ \end{enumerate}
+ \end{framed}
+
+ \begin{framed}
+ Warm Up--Hypothesis Tests for Proportions (Ch. 19):
+ \begin{enumerate}
+ \item Coca-Cola claims that you should win their instant win game $1$ in $4$ times. Mr. Wherry actually wins $15$ times in $80$ plays. Using this sample data, create a $90\%$ confidence interval.
+ \item Based off the previous confidence interval, what can we say about Coca-Cola's claim?
+ \item What is a P-Value?
+ 
+ \end{enumerate}
+ \end{framed}
+
+ \begin{framed}
+ Warm Up--Types of Error (Ch. 21):
+ \begin{enumerate}
+ \item What is a p-value?
+ \item A Sunset High School AP Stats instructor is told from a questionable source that nationwide $60\%$ of students should pass the Stats AP test (i.e. get scores of $3$ or higher). The teacher thinks her students are better than the national average. Out of $120$ students that take the test, $80$ pass. Test the claim using a hypothesis test.
+ \end{enumerate}
+ \end{framed}
+ 
+  \begin{framed}
+  Warm Up--Confidence Interval for Two Proportions (Ch. 22):
+  \begin{enumerate}
+  \item Suppose that $p_1-p_2<0$. Which percentage is larger?
+  \item Assuming that $X$ and $Y$ are independent with $SD[X]=3$ and $SD[Y]=4$, what is $SD[X+Y]$? $SD[X-Y]$?
+  \item Assuming that $X$ and $Y$ are independent with $SD[X]=\sigma_X$ and $SD[Y]=\sigma_Y$, what is $SD[X-Y]$?
+  \end{enumerate}
+  \end{framed}
+  
+  \begin{framed}
+    Warm Up--Confidence Interval for Two Proportions (Ch. 22):
+    \begin{enumerate}
+    \item What is the model for $\hat{p}_1-\hat{p}_2$? That is, fill in the blanks: $\hat{p}_1-\hat{p}_2=N(\underline{\hspace{1in}},\underline{\hspace{1in}})$
+    \item Based off the $90\%$ confidence interval for $p_1-p_2$ of $(-0.50,0.62)$, which success rate appears larger? Why?
+    \item What is a P-value?
+    \end{enumerate}
+    \end{framed}
+ 
+ \begin{framed}
+  Warm Up--Confidence Intervals for One Average (Ch. 20):
+  \begin{enumerate}
+  \item Given the sample list of data $\{2,3,5\}$ calculate $\bar{x}$ and $s$.
+  \item Give the distribution $P(X=2)=1/3$, $P(X=3)=1/3$, $P(X=5)=1/3$, calculate $E[X]$ and $SD[X]$.
+  \item State the Central Limit Theorem. That is, fill in the blanks: $\bar{X}=N(\underline{\hspace{1in}},\underline{\hspace{1in}})$
+  
+  \end{enumerate}
+  \end{framed}
+ 
+  \begin{framed}
+  Warm Up--Hypothesis Tests for One Average (Ch. 20):
+  \begin{enumerate}
+  \item What are the four steps of a hypothesis test?
+  \item State the modified Central Limit Theorem. That is, fill in the blanks: $\bar{X}=t_{df}(\underline{\hspace{1in}},\underline{\hspace{1in}})$
+  \item When do we use $t$ instead of $z$?
+  \end{enumerate}
+  \end{framed}
+  \newpage
+   \begin{framed}
+    Warm Up--Comparing Two Independent Means (Ch. 22):
+    \begin{enumerate}
+    \item If we compare the average cost of comics and find that $\mu_{\text{Marvel}}-\mu_{\text{DC}}>0$, what can we say about the cost of the comics?
+    \item If $X$ and $Y$ are independent with $SD[X]=5$ and $SD[Y]=12$, what is $SD[X-Y]$?
+    \item If $\bar{X}$ and $\bar{Y}$ are independent with $$SD[\bar{X}]=\frac{\sigma_X}{\sqrt{n_X}}$$ and $$SD[\bar{Y}]=\frac{\sigma_Y}{\sqrt{n_Y}}$$ what is $SD[\bar{X}-\bar{Y}]$?
+    \end{enumerate}
+    \end{framed}
+  
+    \begin{framed}
+      Warm Up--Matched Pairs (Ch. 23):
+      \begin{enumerate}
+      \item What does it mean for two events to be independent?
+      \item Complete page 1 of the Ch. 23 packet!
+      \end{enumerate}
+      \end{framed}
+      
+      \begin{framed}
+            Warm Up--Chi-Squared Goodness of Fit (Ch. 24):
+            \begin{enumerate}
+            \item If you roll a fair six-sided die $66$ times, how often should you get an outcome of a ``1"?
+            \item Complete page 1 of the Ch. 24 packet!
+            \end{enumerate}
+            \end{framed}
+            
+\begin{framed}
+      Warm Up--Chi-Squared Tests for Homogeneity and Independence (Ch. 24):
+      \begin{enumerate}
+      \item How do you calculate $\chi^2$?
+      \item Test the claim using Chi-Square that a six-sided die is fair if you get an outcome of ``1" $20$ times and the outcome of NOT ``1" $180$ times. HINT: How often should we get ``1"?
+       \end{enumerate}
+      \end{framed}
+
+   \begin{framed}
+      Warm Up--ANOVA Day 1 (Ch. 26):
+      \begin{enumerate}
+      \item What is a P-Value?
+      \item Complete page 1 of the Ch. 26 packet!
+      \end{enumerate}
+      \end{framed}
+      
+      \newpage
+   \begin{framed}
+      Warm Up--ANOVA Day 2 (Ch. 26):
+      \begin{enumerate}
+      \item How do you calculate the \emph{variation between groups}?
+      \item How do you calculate the \emph{variation within group}?
+      \item Perform ANOVA for the Excel file located on your desktop.
+      \end{enumerate}
+      \end{framed}
+      
+   \begin{framed}
+      Warm Up--Linear Regression Day 1 (Ch. 25):
+      \begin{enumerate}
+      \item What is an \emph{explanatory} variable?
+      \item What is an \emph{response} variable?
+      \item Complete page 1 of the Ch. 25 packet!
+      \end{enumerate}
+      \end{framed}
+
+ \begin{framed}
+      Warm Up--Linear Regression Day 2 (Ch. 25):
+      \begin{enumerate}
+      \item Small data set: We are given the points $(2,5)$ and $(6,10)$. If this is all of the data, what is the value for $r$?
+      \item Using your calculator or by hand, determine $\bar{x}$, $s_x$, $\bar{y}$, $s_y$, and $n$ for the data set.
+      \item Using the previous calculations, determine the line of best fit.
+      \item Using LinReg(ax+b) in your calculator, verify your line!
+      \end{enumerate}
+      \end{framed}
+\end{document}

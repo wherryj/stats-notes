@@ -1,0 +1,246 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapters 25 Day Two
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 25: Linear Regression Day 2}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 25 Day One: Linear Regression Day 2}
+
+
+
+
+ \noindent \textbf{Overview:} Linear Regression is used for examining the relationship between two variables--an \textbf{explanatory variable}, x, and a \textbf{response variable}, y.\\
+ \begin{framed}When done correctly, it allows us to make predictions about what should happen given a limited amount of information. Here's what we know so far.
+\begin{itemize}
+\item Our approximation for the line of best fit is $\hat{y}=b_1(x)+b_0$ where $b_1$ is our slope and $b_0$ is our $y$-intercept.
+\item We calculate the slope using the formula $b_1=r\frac{s_y}{s_x}$.
+\item We found the slope by plugging in the point $(\bar{x},\bar{y})$ and solving for $b_0$.
+\item $r$ and $R^2$ were both calculated using technology. Recall that $R^2$ is the percentage of variation accounted for by our model.
+\item Residuals are the error in our predictions. We find these by $e=y-\hat{y}=\text{data value}-\text{line value}.$
+\end{itemize}\end{framed}
+\begin{framed}
+ 
+Much to our surprise, we found that under ideal situations the residuals followed a t-distribution $$e\approx t_{k-2}(0,s_e)$$ where $s^2_e=\Sigma\frac{(e-0)^2}{k-2}$.\\
+
+\end{framed}
+Unfortunately, error is unavoidable. We are making two big predictions that cause this. We predict a value for the slope $b_1$ when the actual slope is $\beta_1$. We predict a value for the starting value $b_0$ when the actual starting value is $\beta_0$. As a result, we ``lost" two degrees of freedom due to the unknown factors. This gave us $df=k-2$. Both of these predictions are affected by our residual distribution, so both of these unknowns can be analyzed with the t-distribution. The assumptions for these tests include...
+\begin{itemize}
+\item The usual: Random, Independence.
+\item Linearity: The data should look linear when plotted. Of course.
+\item Equal Spread: Much like ANOVA. This means that the data stays clumped near the line.
+\item Normal Population for Errors: We want the errors to look normal. Everything else is based off this. We can either do a histogram of the errors to check for nearly normal OR do a normality plot.
+\end{itemize}
+\newpage\noindent Let's do one final experiment for the term! I want to know if the drop height of a ball in centimeters affects the bounce height of a ball.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Drop Height & Bounce Height \\
+\hline
+10 & \\
+\hline
+15 & \\
+\hline
+20 & \\
+\hline
+25 & \\
+\hline
+30 & \\
+\hline
+35 & \\
+\hline
+40 & \\
+\hline
+45 & \\
+\hline
+50 & \\
+\hline
+55 & \\
+\hline
+60 & \\
+\hline
+65 & \\
+\hline
+70 & \\
+\hline
+75 & \\
+\hline
+80 & \\
+\hline
+85 & \\
+\hline
+\end{tabular}
+\begin{enumerate}
+\item State the Explanatory and Response Variable.
+\vspace{0.3in}
+\item Determine the line of best fit. Using technology is okay.
+\vspace{0.3in}
+\item Calculate $R^2$. How good is the fit?
+\vspace{0.3in}
+\item \textbf{Test for Linearity} Using technology, perform the test for linearity! Recall that this refers to $\beta_1$.
+\vfill
+\item Assumption Check:
+\begin{enumerate}
+\item The usual: 
+\item Linearity: 
+\item Equal Spread: 
+\item Normal Population for Errors: 
+\vspace{0.5in}
+\end{enumerate}
+\newpage
+\noindent We will use a printout from CrunchIt \url{<http://crunchit2.bfwpub.com/crunchit2/ips5e/?section_id=>} for the last two components. Fill in the table first. You may be expected to read such tables for the final.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Estimates &  t-Stat & P-Value & CI Low & CI High\\
+\hline
+(Intercept)& & &  \\
+\hline
+Drop Height& & & \\
+\hline
+\end{tabular}
+\end{center}
+\item \textbf{Test for $y$-intercept, $\beta_0$.} Using the printout, perform a test for a $y$-intercept. State your hypotheses, degrees of freedom, model, P-value, and conclusion.
+\vfill
+\vfill
+\item State the $95\%$ CI for the slope, $\beta_1$.
+\vfill
+\item State the  $95\%$ CI for the y-intercept.
+\vfill
+\item Create the $95\%$ CI for predicted bounce height if we drop the ball from $100$ cm.
+\vfill
+\end{enumerate}
+\end{center}
+\end{document}

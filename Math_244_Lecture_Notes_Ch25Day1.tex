@@ -1,0 +1,276 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapters 25 Day One
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 25: Linear Regression Day 1}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 25 Day One: Linear Regression Day 1}
+
+
+
+
+ \noindent \textbf{Overview:} Today, we will practice hypothesis tests for two proportions. There are four steps to hypothesis tests:
+
+Linear Regression is used for examining the relationship between two variables--an \emph{explanatory variable}, x, and a \emph{response variable}, y. When done correctly, it allows us to make predictions about what should happen given a limited amount of information. Let's look at a quick review:
+\begin{ex} Find the equation of the line that runs through the points $(1,10)$ and $(3,6)$.\end{ex}
+\vfill
+\begin{ex} Plot the data using a scatter plot\\
+
+
+\begin{tabular}{|c|c|}
+	\hline
+	Year & Average Cost of Bread $\$$\\
+	\hline
+	1930 & 0.09\\
+	\hline
+	1940 & 0.10 \\
+	\hline
+	1950 &  0.12 \\
+	\hline
+	1960 & 0.22 \\
+	 \hline
+	1970 & 0.25 \\
+	  \hline
+	1980 & 0.50 \\
+	   \hline
+	1990 & 0.70 \\
+	    \hline
+	2000 & 1.64 \\
+	     \hline
+	2010 & 2.79 \\
+	 \hline
+	2015 & 1.98 \\
+	\hline
+\end{tabular}
+\vspace{0.25in} \end{ex}
+
+\begin{ex} Describe the above scatter plot \end{ex}
+
+\vfill
+\newpage 
+
+\begin{framed}
+ \noindent We describe scatter plot by looking at...
+\begin{itemize}
+	\item Shape: Does it look like a line? Parabola? Exponential? Etc.
+	\item Direction: Is it mostly increasing or decreasing globally?
+	\item Fit: How much does it look like the indicated shape (e.g. linear)? Is it a good fit? Okay fit? Poor fit?
+\end{itemize}
+\end{framed}
+
+
+Examples: 
+\vfill
+\noindent NOTE: We call the input the EXPLANATORY VARIABLE (it is the variable we control or independent variable) and the output the RESPONSE VARIABLE (it is the variable we measure or dependent variable). For example, the Year might be the explanatory variable and the Cost of Bread might be the response variable.
+\vspace{0.15in}
+\newpage
+\begin{framed} When describing the fit for a linear relationship, we use the terminology of ``correlation". It simply tells us how to variables are related (it does not tell us the cause of the relationship though). $r$ is the correlation coefficient. Here are properties of $r$:
+\begin{itemize}
+	\item $-1\leq r\leq 1$.
+	\item $r>0$ means the data is increasing. Think of it like slope!
+	\item $r<0$ means the data is decreasing. Think of it like slope!
+	\item $r\approx 1$ is an almost perfect increasing linear fit.
+	\item $r\approx -1$ is an almost perfect decreasing linear fit.
+	\item $r\approx 0$ indicates that the variables are not correlated [may look like a cloud of points].
+\end{itemize}
+\end{framed}
+
+Examples:
+\vfill
+\noindent By hand, we would calculate it using the formula $$r=\Sigma \frac{Z_x*Z_y}{(n-1)}$$ where $Z_x$ and $Z_y$ are the z-scores for $x$-values and $y$-values respectively. This can be time consuming, so we often find it using technology instead...\\
+\noindent\textbf{TI-83/84:} Go into [Stat]$\rightarrow$[Edit] and type in your data in L1 and L2. Then,\\ go [Stat]$\rightarrow$[Calc]$\rightarrow$[LinReg(ax+b)].\\
+\noindent\textbf{TI-89:} Go into [Stat/list Editor]$\rightarrow$[Edit] and type in your data in list1 and list2. Then, go [F4:Calc]$\rightarrow$[Regression]$\rightarrow$[LinReg(ax+b)].\\
+Our $r$ for the Cost of Bread example was...
+
+\vspace{0.25in}
+\newpage
+\begin{framed} Since both $r=-1$ and $r=1$ are considered good fits, we often consider $R^2$ instead [takes care of the negatives]. By design, $0\leq R^2\leq 1$. It's actually a probability!
+\begin{itemize}
+	\item $R^2$ is the percentage of variation accounted for by our model.
+	\item $1-R^2$ is the percentage of variation left to luck or a lurking variable.
+	\item If $R^2\geq 0.85$ or $85\%$, we consider it a good fit.
+	\item If $0.75<R^2<0.85$, we consider it an okay fit.
+	\item If $R^2\leq 0.75$, we consider it a poor fit.
+\end{itemize}
+\end{framed}
+
+For our Cost of Bread example, our $R^2$ was...
+
+\vspace{0.5in}
+\noindent Your calculator also gives you $R^2$ when you calculate $r$. Go back and verify it!\\
+You may have noticed that your calculator does one better than that--it actually gives us our LINE of best fit! For our Cost of Bread example...
+
+\vfill
+\begin{ex}We can use this line to make predictions. How much did bread cost in $1960?$ How much will it cost in $2016$? How much did it cost in $1800$? \end{ex}
+\vfill
+\vfill
+\newpage
+\noindent Recall that the equation of a line is $y=mx+b$ where $m$ is the slope and $b$ is part of the y-intercept $(0,b)$. In Stats, we write this as $\hat{y}=b_1(x)+b_0$ where $b_1$ is our slope and $b_0$ is our $y$-intercept. Here's why:
+
+\vfill
+\begin{ex} How do we find the slope? \end{ex}
+
+\vfill
+$b_1=$\\
+~\\
+\begin{ex} How do we find the y-intercept? \end{ex}
+
+\vfill
+$b_0=$
+\vspace{0.2in}
+\newpage
+\noindent Recall that $\hat{y}=b_1(x)+b_0$. We calculate the slope using the formula $b_1=r\frac{s_y}{s_x}$. We found the slope by plugging in the point $(\bar{x},\bar{y})$ and solving for $b_0$.\\
+~\\
+\begin{ex} Find the equation of a line of best fit if $r=0.80$, $\bar{x}=10$, $s_x=5$, $\bar{y}=4$, and $s_y=3$.\end{ex}
+
+\vfill
+\noindent Let's verify our Cost of Bread equation:
+
+\vfill
+\noindent More predictions: What will the cost of bread be in $1970$?
+
+\vfill
+\noindent
+Predictions are rarely perfect. Residuals are the error in our predictions. We find these by $e=y-\hat{y}=\text{data value}-\text{line value}.$\\
+\begin{ex}Let's find the error in our prediction for the year $1970$.\end{ex}
+
+\vfill
+\noindent What do the errors typically look like?
+
+\vfill
+Model: 
+
+\vfill
+ 
+\end{document}

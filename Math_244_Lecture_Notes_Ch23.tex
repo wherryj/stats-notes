@@ -1,0 +1,289 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 23 Matched Pairs
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 23: Matched Pairs}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 23: Matched Pairs}
+
+
+
+
+ \textbf{Overview:} Last class, we analyzed the averages for two independent groups. Today, however, we will determine what to do if the groups are not independent.\\
+ ~\\
+ \noindent Let's start with a table illustrating the before and after weights for some individuals using the P90x system:
+ 
+ \begin{center}
+\begin{tabular}{l|l|l|}
+× & Starting Weight (lb) & Ending Weight (lb)\\\hline
+Sam & 185 & 165\\\hline
+Carol & 190 & 172\\\hline
+Enrique & 170 & 160\\\hline
+Rebecca & 160 & 158\\\hline
+Eric & 240 & 242\\\hline
+ \end{tabular}
+ \end{center}
+
+ \begin{ex} How much did each individual person lose?\end{ex}
+ \begin{ex} On \emph{average}, how much did they lose per person?\end{ex}
+ \vspace{1in}
+ 
+ \begin{ex} What is the standard deviation for the weight loss? HINT: $$s^2=\Sigma \frac{(x_i-\bar{x})^2}{n-1}$$
+ \end{ex}
+
+ \vspace{1in}
+ 
+ \begin{ex} Why are the before and after weight not considered independent?\end{ex}
+ \vfill
+ \newpage
+ \noindent The previous is an example of \emph{matched pair} data. That is, the information given is linked by some sort of before/after dependency. When analyzing this sort of data, we analyze the differences only which we call $d$.\\
+ ~\\
+ NOTE: Since we are looking at d$=$before-after, we really one have one list of values that we care about. As such, we will use our model for one-sample averages.
+ 
+ 
+ 
+\begin{framed}
+  We will do confidence intervals for $\mu_d$ using $$\bar{x}\pm t_{df}^* \frac{s}{\sqrt{n}}\rightarrow\bar{d}\pm t_{df}^* \frac{s_d}{\sqrt{k}}$$ where $k$ is the number of pairs. Confidence intervals are based off \underline{\hspace{1in}}
+ \end{framed} 
+ 
+\begin{framed}
+We will use the following model in step two of a hypothesis test of $$\bar{X}\approx t_{df}\left(\mu, \frac{s}{\sqrt{n}}\right)\rightarrow\bar{d}\approx t_{df}\left(\mu_d, \frac{s_d}{\sqrt{k}}\right)$$ Hypothesis tests are based off \underline{\hspace{1in}}.
+\end{framed}
+\vspace{0.25in}
+
+\begin{ex} Create a $90\%$ confidence interval for the weight loss (before-after). \end{ex}
+\vfill
+
+\noindent How do we know if the program was effective? Has it been effective?
+\vspace{0.5in}
+
+\newpage
+\noindent \textbf{Understanding Results:} Still thinking about weight loss where d$=$before-after, what would it mean if $\mu_d>0$? What would $\mu_d<0$ mean? $\mu_d=0$?
+\vspace{1in}
+
+\begin{ex} Test the claim that people on average lost weight using the P90x program.\end{ex}
+STEP I:
+\vspace{0.3in}
+
+STEP II:
+\vfill
+
+STEP III:
+
+\vfill
+
+STEP IV:
+
+\vfill
+
+\begin{ex} If we made a mistake in the conclusion, what type of error would that be?\end{ex}
+\vspace{1in}
+\newpage
+\begin{ex} A local high school track team has $500$ runners (very big school). Barry Allen wants to track improvement for the team on average. To do this, he randomly selects 12 runners and records their mile times at the start and end of the season. That data is as follows:
+\vspace{0.2in}
+
+\begin{center}
+\begin{tabular}{l|l|l|l|l|l|l|l|l|l|l|l|l}
+Start of Season (min) & 8.75 & 7.30 & 12.50 & 6.40 & 7.15 & 9.50 & 10.68 & 9.32 & 11.15 & 13.20 & 8.76 & 7.43\\
+\hline
+End of Season (min) & 8.40 & 6.30 & 14.6 & 6.00 & 8.18 & 8.58 & 9.30 & 7.22 & 9.09 & 10.00 & 6.48 & 6.52
+\end{tabular}
+\end{center}
+
+\vspace{0.2in}
+Do we have evidence that they have improved on average? How much improvement if any?
+\end{ex}
+\vfill
+\vfill
+\noindent Checking our work in the calculator is definitely doable. Simply type in your difference data and then do what you normally do for 1-samples.\\
+\noindent \textbf{Checking CI with Calculator:} In our calculator, we use ``tInt" to check our interval. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F7:Ints] on the TI-89. Type in your relevant information and you are good to go!\\
+
+Calc Interval:\\
+~\\
+\noindent \textbf{Checking H-Test with Calculator:} In our calculator, we use ``tTest" to check our hypothesis test. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F6:Tests] on the TI-89. Type in your relevant information and you are good to go!\\
+~\\
+Calc P-Value:\\
+~\\
+\newpage
+\noindent \textbf{Which Model?!} We have two very different methods for comparing averages in two groups. \emph{Matched pair} is used when there is a linked dependency. \emph{2-Independent means} is used when the groups are independent.\\
+~\\
+\begin{ex} For each of the following, determine if we should be using matched pair or 2-independent means for statistical inference. Also, state the df:
+ \begin{enumerate}
+  \item We want to compare the age gap between two people in a relationship. We study 60 people (30 couples).
+  \item We want to compare the average time it takes to get to work for two different routes. We randomly select $60$ days and record the data (30 days each route).
+  \item We want to compare the number of credits taken by SY and RC students at PCC. We sample $70$ RC students and $80$ SY students.
+  \item We want to compare how long it takes to complete a crossword with and without coffee. We measure the amount of time for $20$ people without coffee and then remeasure the same $20$ people with coffee.
+  \item We want to compare how long it takes to complete a crossword with and without coffee. We measure the amount of time for $20$ people without coffee and then measure $20$ different people without coffee.
+ \end{enumerate}\end{ex}
+\vfill
+
+\begin{ex}
+Design a matched-pair study that would analyze the affects of a new medication on balance.
+\end{ex}
+\vspace{1in}
+
+\begin{ex}
+Design a 2-indepdent means study that would analyze the affects of a new medication on balance.
+\end{ex}
+\vspace{1in}
+
+\noindent Which of the previous two study designs do you prefer? Which one seems more practical?
+
+\vspace{1in}
+\newpage
+\noindent Matched Pair Model:\\
+~\\
+\noindent Two-Independent Means Model:\\
+~\\
+\begin{ex} Perform the indicated inference. Diane Edwards wants to compare the final exam averages for students in MTH243 that have come from (1) MTH95 and (2) MTH111. Using MyPCC/Banner, she randomly selects $40$ students coming from each class (a total of $80$ students) in such a way that all campuses are represented.
+Unsure of how to do the inference, Diane calculates all of the following:
+\begin{itemize}
+ \item MTH95: $\bar{x}=72\%$ with $s=15\%$
+ \item MTH111: $\bar{x}=85\%$ with $s=4\%$
+ \item Difference=MTH111-MTH95: $\bar{d}=13\%$ with $s=9\%$
+\end{itemize}
+Test if students coming from MTH111 do better in MTH243 on average. If so, determine by how much.
+\end{ex}
+\vfill
+
+\begin{ex} Perform the indicated inference. Karin Glitchel wants to compare the number of hours a student attends the SLC per term. She randomly selects $31$ students and records the number of hours they attended in Fall and Winter Term ($62$ pieces of datum). She wants to determine if students spend a different number of hours.
+\begin{itemize}
+ \item Fall Term: $\bar{x}=16\,hr$ with $s=2\,hr$
+ \item Winter Term: $\bar{x}=10\,hr$ with $s=3\,hr$
+ \item Difference=Winter-Fall: $\bar{d}=-6\,hr$ with $s=2.4\,hr$
+\end{itemize}
+Test if there is a difference in the number of hours a student spends at the SLC between terms. If so, determine by how much.
+\end{ex}
+\vfill
+\end{document}

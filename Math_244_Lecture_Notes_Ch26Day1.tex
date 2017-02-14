@@ -1,0 +1,277 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 26 Analysis of Variation
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage{pst-func}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 26: Analysis of Variation (ANOVA)}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 26 Day One: Analysis of Variation (ANOVA)}
+
+
+
+
+ \textbf{Overview:} Last class, we compared multiple counts/proportions. This time, we will look at comparing multiple averages.\\
+ ~\\
+ \begin{ex} 
+  Mr. Wherry likes to make bread. Recently, he has begun to experiment with different brands of flour to see if the average amount of time needed to knead dough varies by company. His initial data for the needed time in minutes is listed below:
+ ~\\ 
+  \begin{center}
+\begin{tabular}{c|c|c}
+Arthur's Flour & Bob's Red Mill & Cost Smart\\\hline
+20 & 23 & 35\\
+30 & 26 & 36\\
+25 & 27 & 37\\
+28 & 33 & 38\\
+26 & 30 & 36\\
+26 & 31 & 30\\
+21 & 31 & 37\\
+22 & 32 & 38\\
+26 & 29 & 37\\
+24 & 30 & 36\\
+  & 29 & 37\\
+× & 32 & 37
+  \end{tabular}
+  \end{center}
+ \end{ex}
+
+ \begin{enumerate}
+  \item Calculate the average amount of time needed to knead for ALL brands.
+  \vspace{0.5in}
+  \item Calculate the average and standard deviation for each brand. As a reminder, $$s^2=\Sigma \frac{(x_i-\bar{x})^2}{n-1}.$$
+  \vfill
+  \item Does there appear to be a difference in brands?
+  \vfill
+ \end{enumerate}
+\newpage
+\noindent It feels like we should be doing a hypothesis test. But it's unclear what the model should be and how it should work. Let's look at some examples to see what's going on:
+\begin{ex}
+ Which of the following sets of side-by-side box-plots appear to have a difference in average?
+\end{ex}
+
+\vfill
+\vfill
+\vfill
+Observations:
+\vfill
+We have to study two types of variation: (1) Variation between groups and (2) Variation within groups. We will then compare the two types of variation.
+\newpage
+\noindent Let's bring that variance equation up again: $$s^2=\Sigma \frac{(x_i-\bar{x})^2}{n-1}.$$
+
+In the most general sense, we have $$Variance=\Sigma \frac{(value-center)^2}{df}.$$
+
+\noindent \textbf{Variation Between Groups:} We want to compare each of the individual averages. What is the ``center''? How will we do this?
+\vfill
+
+\begin{framed}
+ \emph{Variation Between Groups} can be found using the formula: \vspace{1in}
+ 
+ It has a $df$ of \underline{\hspace{0.25in}}
+\end{framed}
+
+The variation between groups for the flour brands was \underline{\hspace{0.5in}}
+\newpage
+\noindent \textbf{Variation Within Groups:} We need something to compare with the variation between groups (comparing centers). Luckily, we have the individual spreads of those boxes that inform us of the individual spread that is typical. So, let's \emph{POOL} together each of those variances to get a collective variance.
+\vfill
+
+\begin{framed}
+ \emph{Variation Within Groups} (Based off the SE's) can be found using the formula: $$s_{pool}^2=$$\vspace{1in}
+ 
+ It has a $df$ of \underline{\hspace{0.25in}}
+\end{framed}
+
+The variation within groups for the flour brands was \underline{\hspace{0.5in}}
+\newpage
+\noindent \textbf{Episode IV: A New Distribution} Okay. We have two variances, but how do we compare them? Informally, we consider the Variation Between Groups to be the amount of spread between the centers and the Variation Within Groups to be the amount of spread we are allowed in typical situations. As such...
+
+\begin{framed}
+ $F=\frac{Var\,Between}{Var\,Within}$ is the basis for the $F$-Distribution. You can think of $F$ as ROUGHLY being the $\%$ of allowed variation taken by the differences.
+\end{framed}
+
+\noindent \textbf{Which way do we shade?}\\
+\noindent Assume that the averages are very similar...
+\begin{enumerate}
+ \item Should the variation between groups be large or small?
+ \item Should our $F$ ratio be large or small?
+ \item Do we want to reject or fail to reject the null-hypothesis?
+ \item Do we want a large or small P-value?
+ \item SHADE IN THE CURVE:
+
+ \psset{xunit=0.5cm,yunit=4.5cm,arrowscale=1.5}
+\begin{pspicture}(-1,-0.1)(15,0.8)
+\psFDist[linewidth=1pt,nue=3,mue=12]{0.01}{14.5}
+\psaxes[labels=none,ticks=none]{->}(14,0.8)
+\end{pspicture}
+\end{enumerate}
+
+\noindent Assume that the averages are very different...
+\begin{enumerate}
+ \item Should the variation between groups be large or small?
+ \item Should our $F$ ratio be large or small?
+ \item Do we want to reject or fail to reject the null-hypothesis?
+ \item Do we want a large or small P-value?
+ \item SHADE IN THE CURVE:
+
+ \psset{xunit=0.5cm,yunit=4.5cm,arrowscale=1.5}
+\begin{pspicture}(-1,-0.1)(15,0.8)
+\psFDist[linewidth=1pt,nue=3,mue=12]{0.01}{14.5}
+\psaxes[labels=none,ticks=none]{->}(14,0.8)
+\end{pspicture}
+\end{enumerate}
+Our F-Score:\\
+OBSERVATION:
+\newpage
+\noindent Much like $\chi^2$, ANOVA, which uses the $F$-distribution, is always a right-tailed test. We can find the $P$-value by doing the following:\\
+~\\
+\emph{TI-83 and TI-84:} [2nd]$\rightarrow$[Vars]$\rightarrow$[Fcdf].\\
+\emph{TI-89:} [Apps]$\rightarrow$[Stat/List]$\rightarrow$[F5:Dist]$\rightarrow$[Fcdf].\\
+~\\
+The general setup is the same for all calculators. We need to type in ``Fcdf($F$-score, $\infty$, $df_{Between}$,$df_{Within}$)''.\\
+Our P-value$=$\underline{\hspace{5in}}
+~\\
+\begin{ex} Assuming that the null-hypothesis is that all brands of flour work equally well on average and the alternative hypothesis is that at least one brand is different, what conclusion can we draw based off our P-value?
+\end{ex}
+\vspace{1in}
+\noindent How can we figure out which group is different?
+\vfill
+\newpage
+\noindent Here is the general process from start to finish:
+\begin{framed}
+STEP I: State the hypotheses. $H_0:\mu_1=...=\mu_k$ and $H_A:$ At least one average is different.
+
+STEP II: When comparing multiple averages, we use the $F$-Distribution. Where...
+
+$$\text{Variation Between Groups}=\Sigma \frac{n_i(\bar{x}_i-\bar{X})^2}{k-1}$$ with $k$ the number of groups and $\bar{X}$ the overall average AND
+$$\text{Variation Within Groups}=s_{pool}^2=\Sigma \frac{df_i(s_i)^2}{N-k}$$ with $N$ the total number of values.
+$$F=\frac{\text{Variation Between Groups}}{\text{Variation Within Groups}}$$ has df's of $k-1$ and $N-k$ in that order.\\
+~\\
+The assumptions are
+\begin{enumerate}
+ \item Random
+ \item Independence/$10\%$ Rule
+ \item Large n:
+ \item Indepedent Groups
+ \item Equal Spread:
+ 
+ \vspace{0.5in}
+\end{enumerate}
+
+STEP III: ANOVA is always a right-tailed test.\\ We find the P-value using ``Fcdf($F$-score, $\infty$, $df_{Between}$,$df_{Within}$)''
+
+STEP IV: Conclusion
+
+\end{framed}
+
+\begin{ex} Mr. Wherry wants to know if there is an average difference in GPA (out of 4.0) for daytime versus evening students. Daytime: $\bar{x}=2.86$, $s=1.4$, and $n=20$. Evening: $\bar{x}=3.16$, $s=1.6$, and $n=30$. Use ANOVA to compare.
+ 
+\end{ex}
+
+\vfill
+
+\end{document}

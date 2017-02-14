@@ -1,0 +1,188 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 19
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 19: Hypothesis Tests for 1-Proportion }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 19: Hypothesis Tests for 1-Proportion}
+
+
+
+
+ \textbf{Overview:} Today, we will practice hypothesis tests. This covers primarily topics from chapter 19 (H-Tests). Recall that there are four steps to testing claims about proportions:
+ \begin{framed}
+ \begin{enumerate}
+ 	\item State the Hypotheses. These will look something like the following: $$H_0:\text{parameter}=\#$$ $$H_A:\text{parameter} [<,>,\neq]\#$$
+ 	\item Determine the Model and Check Assumptions. For example, the model for analyzing proportions is $$\hat{P}=N\left(p,\sqrt{\frac{pq}{n}}\right)$$ where the assumptions are 
+ 	\begin{itemize}
+ 		\item Random [little to no bias]
+ 		\item Independence/$10\%$ Rule
+ 		\item Large n: $np\geq10$ AND $nq\geq 10$
+ 	\end{itemize}
+ 	\item Calculate the P-Value. This is the likelihood of your sample data or more extreme if $H_0$ is true. You should commit this to memory.
+ 	\item Conclusion. If your $P-Val<\alpha$, then you reject $H_0$ and have evidence of the $H_A$. If your $P-Val\geq \alpha$, then you fail to reject $H_0$ and do NOT have evidence of the $H_A$.
+ \end{enumerate}
+ \end{framed}
+ 
+ NOTE: Recall that \emph{parameters} are numbers that describe a population $(\mu,\sigma,p)$ and statistics are numbers that describe a \emph{sample} $(\bar{x},s,\hat{p})$. Let's practice forming hypotheses.
+ 
+ \begin{ex} Previously, $80\%$ of Comcast customers were satisified with their service. They want to test if they have improved.
+ 	\end{ex}
+ 	\newpage
+ \begin{ex} Last year, the average length of a Delta flight from San Francisco to Portland was $90$ minutes. They hope they have improved (more efficient).\end{ex}\vfill
+ 	\begin{ex} You want to test if a coin is fair.\end{ex}\vfill
+ 	\begin{ex}
+ 	 A ruler manufacturer states that their measuring sticks vary by $0.01$ inches. You think they actually vary less.	
+ 	\end{ex}\vfill
+ 
+ \newpage
+ \noindent Let's look at a test from start to finish. 
+ \begin{ex} According to Time magazine, $33\%$ of all cars sold in the US are SUVs. After some investigation, it appears that the actual value is less. Suppose a random sample of $500$ recently sold cars shows that $145$ are SUVS.\end{ex}
+ \vfill
+ \newpage
+ 
+ \begin{ex} National Geographic claims that $40\%$ of individuals like cats more than dogs. An informal student survey at PCC shows that $80$ people and $30$ of those preferred cats over dogs. Test the claim that the actual proportion of those that prefer cats is less than what National Geographic claims.\end{ex}
+ \vfill
+ \begin{framed} \textbf{Checking work with Calculator:} In our calculator, we use ``1-propZTest" to check our z-score and p-value. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F6:Tests] on the TI-89. If it asks for $P_0$, then it wants the probability from the null-hypothesis!\\\end{framed}
+ ~\\
+ Calc P-value:~\\
+ \newpage
+ \noindent It is now your time to try! Follow the four steps to do the following H-Tests.
+ \begin{enumerate}
+ 	\item \textbf{Two-Tailed Tests:} How would the previous problem change if we thought that the actual value was \textbf{different}? That is according to Time magazine, $33\%$ of all cars sold in the US are SUVs. After some investigation, it appears that the actual value is \textbf{different}. Suppose a random sample of $500$ recently sold cars shows that $145$ are SUVS.
+ 	\vfill
+ 	\item Census.gov claims that $29.7\%$ of students work ``full time". An informal student survey at PCC shows that $18$ out of $68$ students worked full time. Test the claim that the actual proportion is higher than claimed.
+ 	\vfill
+ 	\newpage
+ 	\item USNews claims that $86.6\%$ of Oregonians have health care (Q1 of 2014). We want to test if the actual proportion is different than claimed. An informal student survey at PCC shows that $64$ out of $68$ individuals had health care. Test the claim.
+ 	\vfill
+ 	\item It is estimated that $20\%$ of all freshwater fish in the US have such high levels of mercury that they are dangerous to eat. Suppose a fish market has $250$ fish tested, and $60$ of them have dangerous levels of mercury. Test the claim that the true proportion of fish with high levels of mercury is different than claimed.
+ 	\vfill
+ 	Using the above data, create a $90\%$ CI for the proportion of fish with high levels of mercury: \vspace{0.2in}
+ \end{enumerate}
+\end{document}

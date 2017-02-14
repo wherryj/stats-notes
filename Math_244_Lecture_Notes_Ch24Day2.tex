@@ -1,0 +1,284 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 24 Chi-Squared Homogeneity and Independence
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage{pst-func}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 24: Tests for Homogeneity and Independence}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 24: Chi-Squared Tests for Homogeneity and Independence}
+
+
+
+
+ \textbf{Overview:} Last class, we examined a distribution of values using a $\chi^2$ Goodness of Fit test. This time, we will expand on that to test Homogeneity and Independence.
+ 
+ \begin{framed}
+ We are using the $\chi^2$-distribution to test claims involving expected and observed counts. For the purposes of this class, we will only be using it for hypthesis tests. For Goodness of Fit, this looked like...
+ \begin{itemize}
+  \item STEP I: $H_0:p_1=\#_1,...,p_n=\#_n$ and $H_A:$At least one proportion is different.
+  \item STEP II: Our model is $$\chi^2=\Sigma \frac{(Obs-Exp)^2}{Exp}$$ where $Exp=np_i$. The assumptions are
+  \begin{enumerate}
+   \item Random
+   \item Independence/$10\%$ Rule for each trial
+   \item Large n: $np_i\geq5$. We need five expected counts for each category. NOTE: No restriction on the observed.
+   \item Countable data.
+  \end{enumerate}
+  \item STEP III: Find the P-Value.\\$\chi^2$ is always a right-tailed test, so $P-Val=\chi^2cdf(Low\,\chi^2,\infty,df)$.
+  \item STEP IV: Conclusion.
+ \end{itemize}
+Also, we determined how rare individual categories were using standardized residuals. These acted like Z-scores. $$St. Res.=\frac{Obs-Exp}{\sqrt{Exp}}$$
+ \end{framed}
+
+\begin{ex} According to Marvel Comics, $10\%$ of all Ms. Marvel covers are ``variants''. If $200$ Ms. Marvel comics are sampled and $15$ variant covers are found, what can we say about Marvel's claim for the distribution?
+\end{ex}
+\vfill
+\newpage
+\textbf{Independence Review:} Before moving on to new topics, let's revisit the idea of independent variables from MTH243.
+\begin{framed}
+ Two random events, $A$ and $B$, are considered to be independent if any of the following are true:
+ \begin{itemize}
+  \item $P(A)=P(A|B)$.
+  \item The outcome of $A$ does not affect the likelihood of an outcome for $B$.
+  \item $P(A\text{ and }B)=P(A)P(B)$.
+  \item The column/rows are proportional. That is, the columns will have similar ratios.
+ \end{itemize}
+\end{framed}
+\begin{ex} Cat Adoption Team in Sherwood has $60$ cats. Of those, $20$ are kittens, $24$ are male, and $10$ are male kittens. Are the events of ``male'' and ``kitten'' independent?
+\end{ex}
+
+\vspace{.2in}
+
+\begin{center}
+\begin{tabular}{l|l|l|}
+× & Male & Not Male\\\hline
+Kitten & × & ×\\\hline
+Not Kitten & × & ×\\\hline
+\end{tabular}
+\end{center}
+
+\vspace{2in}
+
+\begin{ex} Determine if events $A$ and $B$ are independent in the following table.\end{ex}
+
+\begin{center}
+\begin{tabular}{c|c|c|c}
+× & A & Not A & \textbf{Total}\\\hline
+B & 3 & 12 & \textbf{15}\\\hline
+Not B & 13 & 52 & \textbf{65}\\\hline
+\textbf{Total} & \textbf{16} & \textbf{64} & \textbf{80}
+\end{tabular}
+\end{center}
+
+\vfill
+\newpage
+
+\begin{ex} Fill in the following table assuming that $A$ and $B$ are independent. You might get decimals. That's okay.\end{ex}
+
+\begin{center}
+\begin{tabular}{c|c|c|c}
+× & A & Not A & \textbf{Total}\\\hline
+B &  &  & \textbf{25}\\\hline
+Not B &  &  & \textbf{75}\\\hline
+\textbf{Total} & \textbf{20} & \textbf{80} & \textbf{100}
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{framed}
+ Assuming that two events are independent, we can find $EXP_{A\text{ and }B}=$
+ \vspace{0.1in}
+\end{framed}
+
+\noindent\textbf{Degrees of Freedom:} Given row/column totals, how many cells do we need to fill in before we can solve for the rest by adding/subtracting?
+
+\vfill
+\begin{framed}
+ Given a $r\times c$ matrix, we find the df by $df=$
+ \vspace{0.1in}
+\end{framed}
+\newpage
+\noindent Now that we have a way to find expected counts and the degrees of freedom, we can test for independence using $\chi^2$.
+ \begin{ex} Cat Adoption Team in Sherwood has $60$ cats. Of those, $20$ are kittens, $24$ are male, and $10$ are male kittens. Are the events of ``male'' and ``kitten'' independent?
+
+\vspace{.2in}
+
+\begin{center}
+\begin{tabular}{l|l|l|}
+× & Male & Not Male\\\hline
+Kitten & × & ×\\\hline
+Not Kitten & × & ×\\\hline
+\end{tabular}
+\end{center}
+\end{ex}
+
+\vspace{0.1in}
+
+\noindent STEP I:
+\vspace{0.2in}
+
+\noindent STEP II:
+\vfill
+
+\noindent STEP III:
+\vfill
+
+\noindent STEP IV:
+\vspace{0.5in}
+
+\begin{ex} What is the standardized residual for Male Kitten?\end{ex}
+\vspace{0.5in}
+\newpage
+\noindent This same process can be used to check if two variables are related (Independent) or if multiple column distributions appear the same (Homogeneity).
+\begin{framed}
+A test for \emph{Goodness of Fit} compares one distribution for a variable to a claimed distribution.
+
+A test for \emph{Independence} compares two or more variables to see if they are related. Typically, the information all comes from one large sample and it is sorted accordingly.
+
+A test for \emph{Homogeneity} compares one variable for several subpopulations. Typically, the information is collected separately for each subpopulation.
+\end{framed}
+
+\begin{ex} Determine what test should be used.\end{ex}
+\begin{enumerate}
+ \item We want to see if there is a relationship between gender and health care coverage (Covered/Not Covered).
+ \item The Division Dean wants to compare the final grade distributions for three different professors to see if they look the same.
+ \item Laura at OHSU wants to check if there is a relationship between BP (high/low) and diabetes (yes/no).
+ \item A trading card company claims that $5\%$ of cards are rare, $20\%$ are uncommon, and $75\%$ are common. We want to check the claim.
+\end{enumerate}
+
+\begin{ex}
+Let's do one of these in detail: The Division Dean wants to compare the grade distribution for two different instructors. For Mr. Wherry, he passed $50$ students, failed $20$, and $10$ withdrew. For Mrs. Mushet, she passed $80$ students, failed $10$, and $30$ withdrew. Do the distributions appear the same?
+\end{ex}
+
+\vfill
+\newpage
+\noindent Verifying our answers in the calculator takes two processes. We first must type in our matrix. Then, we must perform the test.\\
+~\\
+\noindent \textbf{Creating a Matrix:} If you have a TI-83, TI-84, hit [2nd]$\rightarrow$[Matrix] and [Edit] Matrix A. You will need to state the Rows then Columns when determining the size.\\
+~\\
+If you have a TI-89, go into [Apps]$\rightarrow$[Data/Matrix]. Select the option for ``Matrix'' and name it something you'll remember. State the number of Rows then Columns. Then, type in your data.\\
+~\\
+\noindent \textbf{Checking H-Test with Calculator:} In our calculator, we use ``Chi-SquaredTest" (not GoF) to check our hypothesis test. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F6:Tests] on the TI-89. Type in your relevant information and you are good to go!\\
+~\\
+Calc P-Value:\\
+~\\
+\newpage
+\textbf{Options, Options, Options:} We now have multiple ways of doing problems involving proportions and counts.
+\begin{ex}
+ Test the claim that the probability of winning a contest by Coca Cola is $1$ in $4$ if we actually win $10$ times in $60$ trials. Do this twice: Once with $\chi^2$ GoF and again with $1$-propZtest.
+\end{ex}
+\vfill
+
+\begin{ex}
+ Hal and Carol want to test if there is a difference in the proportion of times that they are late to work. Hal was late $50$ times in $200$ days. In contrast, Carol was late $40$ times in $200$ days. Do this twice: Once with $\chi^2$ Homogeneity and again with $2$-propZtest.
+\end{ex}
+\vfill
+OBSERVATIONS:
+\end{document}

@@ -1,0 +1,308 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 18
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{pgfplots}
+
+\tikzset{>=stealth}
+\usetikzlibrary{backgrounds,arrows}
+\tikzset{tight background}
+
+
+\pgfplotsset{every axis/.append style={width=6.75cm,height=6.75cm,
+					axis x line=middle,
+					axis y line=middle,
+					line width=0.75pt,
+					tick label style={font=\tiny},
+					label style={font=\small},
+					legend style={font=\tiny}
+}}
+
+\pgfplotsset{framed/.style={axis background/.style ={draw=black!75}}}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+	\pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 18: Confidence Intervals for 1-Proportion }}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 18: Confidence Intervals for 1-Proportion}
+
+
+
+
+ \textbf{Overview:} Today, we will look at how information about samples (\emph{statistics}) can be used to make predictions about information about larger populations (\emph{parameters}). To do this, we will briefly review a few terms and tools before diving head first into the topic of confidence intervals.
+ \begin{framed}
+ A \emph{statistic} is a number that describes a sample. Examples of statistics include... \vspace{0.2in}
+ \end{framed}
+ 
+ \begin{framed}
+ 	A \emph{parameter} is a number that describes a population. Examples of parameters include... \vspace{0.2in}
+ \end{framed}
+
+ We often want to know something about an entire population (e.g. what is the average salary for all Americans?) but it's not always possible to sample the entire population. In these cases, we rely on population models. Arguably the most important such model covered in MTH243 is the Normal Model/Distribution.\\
+ ~\\
+ \textbf{Normal Model} The standard bell curve looks something like below. It is often a population model, so we describe the mean using \underline{\hspace{0.2in}} and the spread using \underline{\hspace{0.2in}}.
+ \begin{center}
+ 	\begin{tikzpicture}
+ 	\begin{axis}[
+ 	no markers, 
+ 	domain=0:6, 
+ 	samples=100,
+ 	ymin=0,
+ 	axis lines*=left, 
+ 	%xlabel=$x$,
+ 	every axis y label/.style={at=(current axis.above origin),anchor=south},
+ 	every axis x label/.style={at=(current axis.right of origin),anchor=west},
+ 	height=4cm, 
+ 	width=9.6cm,
+ 	xtick=\empty, 
+ 	ytick=\empty,
+ 	enlargelimits=false, 
+ 	clip=false, 
+ 	axis on top,
+ 	grid = major,
+ 	hide y axis
+ 	]
+ 	
+ 	\addplot [very thick,cyan!50!black] {gauss(x,3, 1)};
+ 	
+ 	\pgfmathsetmacro\valueA{gauss(1,3,1)}
+ 	\pgfmathsetmacro\valueB{gauss(2,3,1)}
+ 	\pgfmathsetmacro\valueC{gauss(3,3,1)}
+ 	\draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+ 	(axis cs:5,0) -- (axis cs:5,\valueA);
+ 	\draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+ 	(axis cs:4,0) -- (axis cs:4,\valueB);
+ 	\draw [gray] (axis cs:3,0) -- (axis cs:3,\valueC)
+ 	(axis cs:3,0) -- (axis cs:3,\valueC);
+ 	%\draw [yshift=2.cm, latex-latex](axis cs:2, 0) -- node [fill=white] {\small{$68\%$}} (axis cs:4, 0);
+ 	%\draw [yshift=0.7cm, latex-latex](axis cs:1, 0) -- node [fill=white] {\small{$95\%$}} (axis cs:5, 0);
+ 	%\draw [yshift=0.2cm, latex-latex](axis cs:0, 0) -- node [fill=white] {\small{$99.7\%$}} (axis cs:6, 0);
+ 	
+ 	%\node[below] at (axis cs:0, 0)  {$\mu-3\sigma$}; 
+ 	%\node[below] at (axis cs:1, 0)  {$\mu-2\sigma$}; 
+ 	%\node[below] at (axis cs:2, 0)  {$\mu-1\sigma$}; 
+ 	\node[below] at (axis cs:3, 0)  {}; 
+ 	%\node[below] at (axis cs:4, 0)  {$\mu+1\sigma$}; 
+ 	%\node[below] at (axis cs:5, 0)  {$\mu+2\sigma$}; 
+ 	%\node[below] at (axis cs:6, 0)  {$\mu+3\sigma$}; 
+ 	\end{axis}
+ 	
+ 	\end{tikzpicture}
+\end{center}
+\vspace{0.1in}
+\noindent When using the normal distribution, we use the notation $$X=$$
+
+In our class, we will find the likelihood of events using the 68-95-99.7 Rule and with the aid of $Z$-scores.
+
+\newpage
+\begin{ex} Suppose that $X=N(25,5)$. Calculate $P(10<X<40)$.\end{ex} \vspace{1in}
+\begin{ex} Suppose that $X=N(-3,7)$. Calculate $P(-17<x<11)$.\end{ex} \vspace{1in}
+
+\noindent What if I wanted to know $P(x<10)$ in the previous example?
+
+\vspace{0.5in}
+
+\begin{framed}
+	A $Z$-score tells us the number of standard deviations a value is away from the mean. We calculate it by doing...
+	\vspace{1in}
+\end{framed}
+
+This is a powerful tool for calculating probabilities using the normal distribution. For example, let's calculate $P(X<10)$ using the following steps:
+\begin{enumerate}
+	\item Draw a picture
+	\item Calculate the z-score(s)
+	\item Look up the z-score(s)
+\end{enumerate}
+ 	\newpage
+ \begin{ex} The number of hours of sleep an average person in the US gets is normally distributed: $X=N(8,0.5)$. Calculate $P(X<9.25)$.\end{ex}\vfill
+ 	\begin{ex} Using the same information above, calculate $P(X>7)$ \end{ex}\vfill
+ 	\begin{ex}
+ 	 Using the same information above, calculate $P(7<X<9.25)$.	
+ 	\end{ex}\vfill
+ 
+ \newpage
+ \noindent In MTH 243, we studied many different normal models used for making predictions:
+ \begin{framed}
+ 	
+ 	\begin{itemize}
+ 		\item If we are studying sample means, we use the model... $$\bar{X}=N($$
+ 		\item If we are studying the number of success in n-trials, we use the model...$$X=N($$
+ 		\item If we are studying sample success rates/proportions, we use the model...$$\hat{P}=N($$
+ 	\end{itemize}
+ 	\end{framed}
+ We will revisit these models throughout the term, but lets start with the model for $\hat{P}$. As a reminder, the assumptions are...
+ \begin{enumerate}
+ 	\item Random
+ 	\item Independence
+ 	\item Large $n$
+ \end{enumerate}
+
+ \begin{ex} We are told that a coin is fair. With $68\%$ certainty, what proportion of the time should we get heads in $100$ flips?
+ 	\end{ex}\vfill
+  \begin{ex} We are told that a coin is fair. With $95\%$ certainty, what proportion of the time should we get heads in $100$ flips?
+  \end{ex}\vfill
+ \newpage
+ \begin{framed} The interval $p\pm Z^*\sqrt{\frac{pq}{n}}$ gives us the interval that we expect $\hat{p}$ to be in based off population information.
+ 	\end{framed}
+ 
+ This is the complete OPPOSITE of what we want. But...
+ 
+ \begin{framed} \textbf{Confidence Interval} The interval...\vspace{0.25in}
+ 	
+ 	gives us the interval that we expect $\hat{p}$ to be in based off the SAMPLE information. YEAH!!!
+ 	
+ \end{framed}
+ The assumptions are...
+ \begin{enumerate}
+ 	\item Random
+ 	\item Independence
+ 	\item Large $n$
+ \end{enumerate}
+ 
+ \begin{ex} Using a random sample, an employee at the PCC bookstore finds that $97$ out of $112$ customers use their credit card to pay for books. Create a $95\%$ confidence interval for what should go on for ALL PCC students.\end{ex}
+ \vfill
+ \begin{ex} Let's create a $68\%$ confidence interval for the proportion of students that identify as ``female" using in-class data\end{ex}
+ \vfill
+ \newpage
+ A little terminology:
+ \begin{framed}
+ 	The \emph{critical value} is denoted by $z^*$. It's the $z$-score corresponding to a specified confidence level.
+ 	
+ 	The \emph{standard error} is our guess for the SD based off the sample. $SE=\sqrt{\frac{\hat{p}\hat{q}}{n}}$
+ 	
+ 	The \emph{margin of error} is given by $MOE=z^*SE(\hat{p})$, or $ME=z^*\sqrt{\frac{\hat{p}\hat{q}}{n}}$.
+ 	
+ 	The \emph{confidence interval} for the true value of a proportion is determined by:
+ 	\[
+ 	\textrm{best point estimate (center)}\ \pm\ \textrm{margin of error} \hspace{0.5in} \textrm{i.e.}\ \hspace{0.5in} \hat{p}\pm z^*\sqrt{\frac{\hat{p}\hat{q}}{n}}
+ 	\]	
+ \end{framed}
+ 
+ \begin{ex} Using the current presidential approval information, let's determine the number of people sampled by Gallup. Assume $95\%$ confidence: \url{http://www.gallup.com/poll/113980/Gallup-Daily-Obama-Job-Approval.aspx}\end{ex}
+ \vfill
+ \begin{ex} What was the best point estimate in the previous problem?\end{ex}
+ \vspace{0.2in}
+
+\noindent Okay, but what about $C=90\%$? What's $Z^*$?
+\vfill
+
+\begin{framed} Here's the general process...
+\begin{itemize}
+	\item Place the area $C$ in the center of a normal curve.
+	\item Determine the area in BOTH tails, $\alpha$. Then, determine the area in the left-tail.
+	\item Use the table to get the z-score OR InvNorm(area). Switch the sign.
+\end{itemize}\end{framed}
+
+\begin{ex} Find $Z^*$ for $C=90\%$, $C=95\%$, and $C=99\%$.\end{ex}
+\vfill
+
+
+\end{document}

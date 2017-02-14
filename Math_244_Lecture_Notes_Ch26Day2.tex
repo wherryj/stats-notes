@@ -1,0 +1,249 @@
+%=====================================================================================================
+
+%       Math 244 Lecture Notes
+
+%       Chapter 26 Day Two: Analysis of Variation
+
+%				201701
+
+%				LaTeX=>PDF sizing, graphics
+%=====================================================================================================
+
+
+\documentclass[12pt]{amsart}
+\usepackage{amssymb,latexsym}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{enumitem}
+\usepackage{fancyhdr,lastpage}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage{pst-func}
+
+\theoremstyle{definition}
+\pagestyle{fancy}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{notation}{Notation}
+\newtheorem{ex}{Example}
+\newtheorem{proc}{Process}
+\newtheorem{gw}{Group Work}
+\newtheorem*{summary}{}
+
+\setlength{\textwidth}{7.25in}			%for =>PDF, use 6.5in
+\setlength{\textheight}{9.5in}		%for =>PDF, use 9.5in
+\setlength{\oddsidemargin}{-0.375in}		
+\setlength{\evensidemargin}{-0.375in}		
+\setlength{\voffset}{-.75in}			%for=>PDF, use -0.75in
+\setlength{\footskip}{15pt}
+
+
+% For degree symbol
+\newcommand{\degree}{\ensuremath{^\circ}}
+
+
+
+% enumerate settings
+\setlist{itemsep=4pt}	%topsep=0.1em
+\renewcommand{\labelenumi}{ (\alph{enumi}) }			% makes enumeration (a) instead of (a).
+
+
+
+\usepackage{placeins} % enables \FloatBarrier, useful for positioning figures/tables more precisely.
+%\usepackage[dvips]{graphics}
+%\usetikzlibrary{arrows}
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,breaklinks=true}
+
+\usepackage{xcolor}
+%		My colors
+\definecolor{silver}{rgb}{0.95,0.95,0.95}
+\definecolor{mypurple}{cmyk}{0.5,1,0,0}			%purple
+\definecolor{myblue}{cmyk}{1,0.012,0,0}		%blue
+\definecolor{mygreen}{cmyk}{1,0,0.99995,0}		%green
+\definecolor{myred}{cmyk}{0,1,1,0}
+
+
+\setlength{\parindent}{0pt}
+
+\date{}
+
+
+
+\begin{document}
+
+\newcommand{\ph}{\phantom}
+\newcommand{\ds}{\displaystyle}
+
+\renewcommand{\emph}{\textbf}
+\onehalfspace
+
+%============================================================
+%           Header Stuff   CHANGE FOR EACH SECTION!!!
+%============================================================
+
+\fancyhf{}   % clears both header and footer
+\fancyfoot[RE,RO]{ \scriptsize{Page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[LE,LO]{\scriptsize{Instructor:  J.Wherry}}
+\fancyhead[RE,RO]{\scriptsize{Chapter 26 Day Two: Analysis of Variation (ANOVA)}}
+\fancyhead[LE,LO]{\scriptsize{Math 244 Lecture Notes }}
+\renewcommand{\headrulewidth}{0.4pt} % Removes header line if 0pt
+\fancyfootoffset[LE,LO]{0in}        %Moves center ??
+\renewcommand{\footrulewidth}{0.4pt} % Removes header line if 0pt
+
+
+
+%============================================================
+%           Title/ Info
+%============================================================
+
+\begin{center}
+
+	\larger[3]	Math 244 Lecture Notes \smaller[3]		\\[22pt]
+
+\end{center}
+
+\section*{Chapter 26 Day Two: Analysis of Variation (ANOVA)}
+
+
+
+
+ \textbf{Overview:} Last class, we learned how to compare multiple groups. Today, we will look at terminology more critically and determine how to do ANOVA with technology\\
+ ~\\
+Here is the general process from start to finish:
+\begin{framed}
+STEP I: State the hypotheses. $H_0:\mu_1=...=\mu_k$ and $H_A:$ At least one average is different.
+
+STEP II: When comparing multiple averages, we use the $F$-Distribution. Where...
+
+$$\text{Variation Between Groups}=\Sigma \frac{n_i(\bar{x}_i-\bar{X})^2}{k-1}$$ with $k$ the number of groups and $\bar{X}$ the overall average AND
+$$\text{Variation Within Groups}=s_{pool}^2=\Sigma \frac{df_i(s_i)^2}{N-k}$$ with $N$ the total number of values.
+$$F=\frac{\text{Variation Between Groups}}{\text{Variation Within Groups}}$$ has df's of $k-1$ and $N-k$ in that order.\\
+~\\
+The assumptions are
+\begin{enumerate}
+ \item Random
+ \item Independence/$10\%$ Rule
+ \item Large n:
+ \item Indepedent Groups
+ \item Equal Spread:
+ 
+ \vspace{0.5in}
+\end{enumerate}
+
+STEP III: ANOVA is always a right-tailed test.\\ We find the P-value using ``Fcdf($F$-score, $\infty$, $df_{Between}$,$df_{Within}$)''
+
+STEP IV: Conclusion
+
+\end{framed}
+
+\begin{ex} Perform ANOVA for the Excel file located on your desktop.
+\end{ex}
+
+\vfill
+\newpage
+We've covered the neccessary math at this point, but let's improve our vocabulary.
+\begin{framed}
+ \emph{Variation Between Groups} in a medical setting might compare the average duration of various \emph{treatments}.
+ $$\text{Variation Between Groups}=\frac{\Sigma n_i(\bar{x}_i-\bar{X})^2}{k-1}=\frac{\text{Sum of the Squares of the Treatment}}{df}$$
+ By dividing the Sum of the Squares of the Treatment (SST), we are finding the Mean for the Squares of the Treatment (MST).
+ $$\text{Variation Between Groups}=\frac{\text{SST}}{df}=\text{MST}$$
+\end{framed}
+
+\begin{framed}
+ \emph{Variation Within Groups} is based solely off the Standard \emph{Errors}.
+ $$\text{Variation Within Groups}=s_{pool}^2=\Sigma \frac{df_i(s_i)^2}{N-k}=\frac{\text{Sum of the Squared standard Errors}}{df}$$
+ By dividing the Sum of the Squared standard Errors (SSE), we are finding the Mean for the Squares of the Errors (MSE). This is our \emph{pooled} variance.
+ $$\text{Variation Between Groups}=s_{pool}^2=\frac{\text{SSE}}{df}=\text{MSE}$$
+\end{framed}
+
+
+\begin{framed}Using the terminology above, we rewrite to get that
+ $$F=\frac{\text{Variation Between Groups}}{\text{Variation Within Groups}}=\frac{\text{MST}}{\text{MSE}}$$
+\end{framed}
+
+OBSERVATION: You may have noticed this already, but $$df_{top}+df_{bottom}=(k-1)+(N-k)=N-1.$$ This will come in handy for the next exercise.\\
+~\\
+\newpage
+\begin{ex}
+ Fill in the following ANOVA table:
+ 
+ {%
+\newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+\begin{center}
+\begin{tabular}{|c|c|c|c|cc}\hline
+Source & df & SS & MS & \mc{1}{c|}{F-Stat} & \mc{1}{c|}{P-Value}\\\hline
+Treatment & 2 & 28.22 & × & \mc{1}{c|}{×} & \mc{1}{c|}{×}\\\hline
+Error & 24 & 28.44 & × & × & ×\\\cline{1-4}
+Total & 26 & 56.66 & × & × & ×\\\cline{1-4}
+ \end{tabular}
+ \end{center}
+}%
+
+\end{ex}
+
+\vspace{1.4in}
+
+\noindent Verifying our answers in the calculator takes two processes. We first must type in our lists. Then, we must perform the test.\\
+~\\
+\noindent \textbf{Creating lists:} If you have a TI-83, TI-84, hit [Stat]$\rightarrow$[Edit] your lists. Type in your dat.\\
+~\\
+If you have a TI-89, go into [Apps]$\rightarrow$[Stat/List Editor]. Then, type in your data.\\
+~\\
+\noindent \textbf{Checking H-Test with Calculator:} In our calculator, we use ``ANOVA" (1-way not 2-way) to check our hypothesis test. This is found in either [Stat]$\rightarrow$[Tests] on the TI-83/84 OR [Stat/List]$\rightarrow$[F6:Tests] on the TI-89. Type in your relevant information and you are good to go!\\
+~\\
+It will look like ``ANOVA($L_1,L_2,L_3$)'' on the TI-83/84. To get $L_1$, hit [2nd]$\rightarrow$[1]. To get $L_2$, hit [2nd]$\rightarrow$[2] and so on.\\
+In the TI-89, you will have to type in the complete name of the lists. For example ``list1''.\\
+~\\
+\begin{ex} Use your calculator to collect the following information for the warm-up data on tip amounts.\end{ex}
+\begin{itemize}
+ \item MST?
+ \item MSE?
+ \item F?
+ \item P-value?
+ \item Pooled Standard Error? $s_p$?
+\end{itemize}
+
+\newpage
+\noindent What do we do if we do notice a difference in averages? Follow it up with $2$-sample $t$-tests. The downside? Error adds up really quickly.\\
+\begin{ex}
+ If we want to compare three groups, how many pairs will we need to analyze?
+\end{ex}
+
+\vspace{0.5in}
+
+\begin{ex}
+ If we want the total $\alpha$ for all tests to be $0.05$, what would each individual $\alpha^*$ need to be?
+\end{ex}
+\vspace{1in}
+
+\begin{framed} 
+ Bonferroni Correction. Let $$\alpha^*=$$ when comparing multiple pairs. This will give you a corrected $C^*=1-\alpha*$ if you want to create confidence intervals as a follow up.
+\end{framed}
+
+\begin{ex} Compare each pair of individuals for the tip data. Which pairs, if any, indicate a difference in average tip amount?
+\end{ex}
+\vfill
+\newpage
+\textbf{Options, Options, Options:} We now have multiple ways of doing problems involving averages.
+\begin{ex}
+You want to compare two routes to work. Route 1 takes $30$ minutes on average with a standard deviation of $15$ minutes and $n=100$. In contrast, Route 2 takes $25$ minutes on average with a standard deviation of $10$ minutes and $n=100$ [When both sample sizes are the same size the study is \emph{balanced}]. Compare the averages using ANOVA.
+\end{ex}
+\vfill
+
+\begin{ex}
+You want to compare two routes to work. Route 1 takes $30$ minutes on average with a standard deviation of $15$ minutes and $n=100$. In contrast, Route 2 takes $25$ minutes on average with a standard deviation of $10$ minutes and $n=100$. Compare the averages using 2-sampletTest. Go ahead and pool.\end{ex}
+\vfill
+OBSERVATIONS:
+\vspace{1in}
+
+\end{document}
